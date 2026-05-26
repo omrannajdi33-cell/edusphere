@@ -2,6 +2,23 @@
 
 Plateforme scolaire Laravel pour école d'été (7–10 ans).
 
+## Structure du projet
+
+```
+edusphere/
+├── app/                 # Code Laravel
+├── public/              # Racine web Laravel (index.php, build Vite)
+├── site/vitrine/        # Vitrine statique GitLab Pages (≠ Laravel)
+├── scripts/             # build-vitrine.sh (CI Pages)
+├── deploy/              # Déploiement production
+└── docs/                # Cahier des charges
+```
+
+| URL | Contenu |
+|-----|---------|
+| [gitlab.io/edusphere](https://omrannajdi33-group.gitlab.io/edusphere/) | Vitrine → redirige vers `/connexion` |
+| `{APP_URL}/connexion` | Application Laravel (production) |
+
 ## Démarrage local (Laragon)
 
 ```bash
@@ -15,59 +32,37 @@ php artisan storage:link
 php artisan serve
 ```
 
-Comptes démo : `prof` / `prof123` — `ali` / `ali123`
+Ouvre http://127.0.0.1:8000/connexion
 
 ## GitLab
 
-Dépôt : [gitlab.com/omrannajdi33-group/edusphere](https://gitlab.com/omrannajdi33-group/edusphere.git)
-
-```bash
-git clone https://gitlab.com/omrannajdi33-group/edusphere.git
-cd edusphere
-```
-
-Remote déjà configuré si tu as cloné depuis GitLab. Sinon :
+https://gitlab.com/omrannajdi33-group/edusphere
 
 ```bash
 git remote add origin https://gitlab.com/omrannajdi33-group/edusphere.git
 git push -u origin main
 ```
 
+## GitHub
+
+https://github.com/omrannajdi33-cell/edusphere
+
+```bash
+git remote add github https://github.com/omrannajdi33-cell/edusphere.git
+git push -u github main
+```
+
 ## Pipeline CI/CD (GitLab)
 
-Le fichier `.gitlab-ci.yml` définit 3 étapes :
+| Job | Rôle |
+|-----|------|
+| **test:php** | Tests PHPUnit |
+| **build:assets** | Vite → `public/build/` |
+| **pages** | Vitrine `site/vitrine/` → GitLab Pages |
+| **deploy:production** | Laravel sur VPS (manuel) |
 
-| Étape | Rôle |
-|-------|------|
-| **test** | `composer install` + `php artisan test` |
-| **build** | `npm ci` + `npm run build` (assets Vite) |
-| **deploy** | Manuel — envoie le code sur ton serveur via SSH |
-
-### Variables CI/CD à ajouter
-
-GitLab → **Settings → CI/CD → Variables** :
-
-| Variable | Exemple | Protégée |
-|----------|---------|----------|
-| `SSH_PRIVATE_KEY` | contenu de ta clé privée SSH | ✓ masked |
-| `DEPLOY_HOST` | `123.45.67.89` | ✓ |
-| `DEPLOY_USER` | `deploy` | ✓ |
-| `DEPLOY_PATH` | `/var/www/edusphere` | ✓ |
-| `APP_URL` | `https://ton-domaine.com` | |
-
-### Guide complet de mise en ligne
-
-Voir **[deploy/DEPLOIEMENT.md](deploy/DEPLOIEMENT.md)** — variables GitLab, Nginx, MySQL, `.env`, certbot.
-
-Fichiers utiles :
-
-| Fichier | Rôle |
-|---------|------|
-| `.gitlab-ci.yml` | Pipeline test → build → deploy |
-| `deploy/deploy.sh` | Script exécuté sur le serveur |
-| `deploy/server-setup.sh` | Installation initiale du VPS |
-| `deploy/nginx.edusphere.conf` | Exemple Nginx |
+Variables : `APP_URL`, `DEPLOY_HOST`, `SSH_PRIVATE_KEY`, etc. — voir [deploy/DEPLOIEMENT.md](deploy/DEPLOIEMENT.md).
 
 ## Branche principale
 
-`main` — les merge requests déclenchent test + build ; le deploy ne part que depuis `main`.
+`main`

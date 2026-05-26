@@ -93,57 +93,16 @@ deploy:production:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
-# ── GitLab Pages (vitrine statique — corrige le 404 sur gitlab.io) ──
-# Laravel (PHP) ne peut PAS tourner sur Pages ; cette job publie index.html.
-# URL : https://omrannajdi33-group.gitlab.io/edusphere/
+# ── GitLab Pages (vitrine statique) ───────────────────────────
+# Source : site/vitrine/ → artefact public/ (via scripts/build-vitrine.sh)
+# URL vitrine : https://omrannajdi33-group.gitlab.io/edusphere/
 pages:
   stage: deploy
   image: alpine:3.21
-  needs:
-    - job: build:assets
-      artifacts: true
-      optional: true
+  before_script:
+    - apk add --no-cache bash sed
   script:
-    - cp gitlab-pages/index.html public/index.html
-    - cp gitlab-pages/404.html public/404.html
-    - cp gitlab-pages/manifest.json public/manifest.json
-    - mkdir -p public/connexion
-    - |
-      set +e
-      APP_LINK="${PAGES_APP_URL:-$APP_URL}"
-      if [ -z "$APP_LINK" ] && [ -n "${DEPLOY_HOST:-}" ]; then
-        case "$DEPLOY_HOST" in
-          [0-9]*.[0-9]*) APP_LINK="http://${DEPLOY_HOST}" ;;
-          *) APP_LINK="https://${DEPLOY_HOST}" ;;
-        esac
-      fi
-      if [ -z "$APP_LINK" ] && [ -f gitlab-pages/production-url ]; then
-        APP_LINK="$(awk '!/^#/ && !/^[[:space:]]*$/ { sub(/\/$/, ""); print; exit }' gitlab-pages/production-url)"
-      fi
-      APP_LINK="${APP_LINK%/}"
-      if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '127\.0\.0\.1|localhost'; then
-        echo "WARNING: APP_URL locale ignorée."
-        APP_LINK=""
-      fi
-      if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qi 'gitlab\.io'; then
-        echo "WARNING: APP_URL ne peut pas être GitLab Pages — définis l'URL du serveur Laravel."
-        APP_LINK=""
-      fi
-      if [ -z "$APP_LINK" ]; then
-        echo "WARNING: APP_URL non définie — bouton Connexion → page d'attente."
-        LOGIN_URL="connexion/"
-        cp gitlab-pages/connexion/pending.html public/connexion/index.html
-      else
-        LOGIN_URL="${APP_LINK}/connexion"
-        echo "Connexion production: ${LOGIN_URL}"
-        cp gitlab-pages/connexion/index.html public/connexion/index.html
-        sed -i "s|__LOGIN_URL__|${LOGIN_URL}|g" public/connexion/index.html
-      fi
-      sed -i "s|__LOGIN_URL__|${LOGIN_URL}|g" public/index.html
-      set -e
-      test -f public/index.html
-      test -f public/connexion/index.html
-    - ls -la public/
+    - bash scripts/build-vitrine.sh
   artifacts:
     paths:
       - public

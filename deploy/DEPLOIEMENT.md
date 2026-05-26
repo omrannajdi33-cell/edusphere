@@ -28,7 +28,7 @@ GitLab Pages ne peut exécuter que du HTML/CSS/JS. Laravel exige PHP + MySQL sur
 
 Le job `pages` génère alors le lien `{APP_URL}/connexion`.
 
-Alternatives : variable `PAGES_APP_URL`, ou fichier `gitlab-pages/production-url` (une ligne, URL HTTPS).
+Alternatives : variable `PAGES_APP_URL`, ou fichier `site/vitrine/production-url` (une ligne, URL HTTPS).
 Si `DEPLOY_HOST` est déjà défini (sans `APP_URL`), l’URL est déduite automatiquement.
 
 ## 2. Variables GitLab (Settings → CI/CD → Variables)
