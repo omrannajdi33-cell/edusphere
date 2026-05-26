@@ -22,7 +22,6 @@ test:php:
   image: php:8.3-cli
   variables:
     APP_ENV: testing
-    APP_KEY: base64:dGVzdGtleXRlc3RrZXl0ZXN0a2V5dGVzdGs=
     DB_CONNECTION: sqlite
     DB_DATABASE: database/database.sqlite
     CACHE_STORE: array
@@ -34,7 +33,7 @@ test:php:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - cp .env.example .env
     - composer install --prefer-dist --no-interaction --no-progress
-    - php artisan key:generate --force
+    - php artisan key:generate --force --no-interaction
     - mkdir -p database && touch database/database.sqlite
     - php artisan migrate --force --no-interaction
   script:
