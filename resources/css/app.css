@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-edu-primary: #14b8a6;
+    --color-edu-primary-dark: #0f766e;
+    --color-edu-accent: #8b5cf6;
+    --color-edu-surface: #0f172a;
+    --color-edu-card: #1e293b;
+    --color-edu-muted: #94a3b8;
+}
+
+@layer base {
+    html {
+        @apply h-full w-full overflow-x-hidden;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply min-h-full w-full min-w-0 bg-slate-950 text-slate-100 antialiased;
+        font-feature-settings: 'ss01' on, 'cv01' on;
+    }
+
+    fieldset {
+        @apply m-0 min-w-0 w-full border-0 p-0;
+    }
+
+    legend {
+        @apply float-none block w-full p-0;
+    }
+}
+
+@layer utilities {
+    .touch-target {
+        @apply min-h-12 min-w-12;
+    }
+
+    .edu-mesh {
+        background:
+            radial-gradient(ellipse 80% 50% at 20% -10%, rgb(20 184 166 / 0.25), transparent 50%),
+            radial-gradient(ellipse 60% 40% at 100% 0%, rgb(139 92 246 / 0.2), transparent 45%),
+            radial-gradient(ellipse 50% 30% at 50% 100%, rgb(14 165 233 / 0.12), transparent 50%),
+            linear-gradient(180deg, #020617 0%, #0f172a 40%, #0f172a 100%);
+    }
+
+    .edu-glass {
+        @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+    }
+
+    .edu-card {
+        @apply rounded-3xl border border-white/10 bg-slate-900/70 shadow-xl shadow-black/20 backdrop-blur-sm;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/* iPad / tablette plein écran en mode PWA */
+@media (display-mode: standalone) {
+    body {
+        @apply overscroll-none;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+    .h-dvh-safe {
+        height: 100dvh;
+        height: -webkit-fill-available;
+    }
+}
