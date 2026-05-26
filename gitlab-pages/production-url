@@ -1,0 +1,2 @@
+# Définis APP_URL dans GitLab → Settings → CI/CD → Variables
+# ou remplace cette ligne par ton URL HTTPS de production (sans commentaire #).

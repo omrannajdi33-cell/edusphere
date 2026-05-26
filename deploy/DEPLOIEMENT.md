@@ -20,7 +20,16 @@
 
 GitLab Pages ne peut exécuter que du HTML/CSS/JS. Laravel exige PHP + MySQL sur un vrai serveur.
 
-**Obligatoire pour la vitrine :** définir `APP_URL` (ou `PAGES_APP_URL`) dans **Settings → CI/CD → Variables** avec l’URL HTTPS de production (ex. `https://edusphere.tondomaine.com`). Le bouton « Se connecter » pointera vers `{APP_URL}/connexion`.
+**Obligatoire pour le bouton Connexion sur la vitrine :**
+
+1. GitLab → **Settings → CI/CD → Variables**
+2. Ajouter **`APP_URL`** = `https://ton-domaine-de-production.com` (HTTPS, sans slash final)
+3. Relancer le pipeline (ou push sur `main`)
+
+Le job `pages` génère alors le lien `{APP_URL}/connexion`.
+
+Alternatives : variable `PAGES_APP_URL`, ou fichier `gitlab-pages/production-url` (une ligne, URL HTTPS).
+Si `DEPLOY_HOST` est déjà défini (sans `APP_URL`), l’URL est déduite automatiquement.
 
 ## 2. Variables GitLab (Settings → CI/CD → Variables)
 
