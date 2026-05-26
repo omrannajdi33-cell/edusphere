@@ -4,10 +4,12 @@ set -e
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/site/vitrine"
-OUT="$ROOT/public"
+OUT="${VITRINE_OUT:-$ROOT/public}"
 FAVICON=""
 if [ -f "$OUT/favicon.ico" ]; then
   FAVICON="$OUT/favicon.ico"
+elif [ -f "$ROOT/public/favicon.ico" ]; then
+  FAVICON="$ROOT/public/favicon.ico"
 fi
 
 rm -rf "$OUT"
@@ -58,5 +60,5 @@ sed -i "s|__CONNEXION_URL__|${CONNEXION_URL}|g" "$OUT/index.html"
 
 touch "$OUT/.nojekyll"
 
-echo "Vitrine prête dans public/"
+echo "Vitrine prête dans ${OUT#"$ROOT"/}"
 ls -la "$OUT" "$OUT/connexion"

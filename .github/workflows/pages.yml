@@ -1,5 +1,8 @@
 name: Deploy vitrine (GitHub Pages)
 
+# Alternative au dossier docs/ : active "GitHub Actions" comme source Pages
+# dans Settings → Pages si tu préfères ce déploiement automatique.
+
 on:
   push:
     branches: [main]

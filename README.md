@@ -50,10 +50,18 @@ https://github.com/omrannajdi33-cell/edusphere
 
 **GitHub Pages** (vitrine) : https://omrannajdi33-cell.github.io/edusphere/
 
-1. Repo → **Settings** → **Pages** → Source : **GitHub Actions**
-2. **Settings** → **Secrets and variables** → **Actions** → **Variables** → `APP_URL` = URL HTTPS du serveur Laravel (ex. `https://edusphere.example.com`)
+### Activer la vitrine sur GitHub (obligatoire)
 
-Le workflow `.github/workflows/pages.yml` build `site/vitrine/` et déploie à chaque push sur `main`.
+1. Repo → **Settings** → **Pages**
+2. **Build and deployment** → Source : **Deploy from a branch**
+3. **Branch** : `main` — **Folder** : **`/docs`** (pas `/ (root)`)
+4. Enregistrer — attendre 1–2 min, puis recharger le site
+
+> Si tu vois le texte du README au lieu de la vitrine, c’est que le dossier `/docs` n’est pas sélectionné.
+
+5. (Quand Laravel sera en ligne) **Settings** → **Secrets and variables** → **Actions** → **Variables** → `APP_URL` = URL HTTPS du serveur Laravel, puis relancer le workflow ou regénérer `docs/` avec le script.
+
+Le dossier `docs/` contient la vitrine buildée (`index.html` → `/connexion`).
 
 ```bash
 git remote add github https://github.com/omrannajdi33-cell/edusphere.git
