@@ -108,10 +108,16 @@ pages:
     - cp gitlab-pages/404.html public/404.html
     - cp gitlab-pages/manifest.json public/manifest.json
     - |
-      APP_LINK="${PAGES_APP_URL:-${APP_URL:-http://127.0.0.1:8000}}"
+      APP_LINK="${PAGES_APP_URL:-$APP_URL}"
       APP_LINK="${APP_LINK%/}"
+      if [ -z "$APP_LINK" ] || echo "$APP_LINK" | grep -qE '127\.0\.0\.1|localhost|example\.com'; then
+        echo "ERROR: Définis APP_URL (ou PAGES_APP_URL) dans GitLab → Settings → CI/CD → Variables"
+        echo "Exemple: https://edusphere.tondomaine.com"
+        exit 1
+      fi
       LOGIN_URL="${APP_LINK}/connexion"
       sed -i "s|__LOGIN_URL__|${LOGIN_URL}|g" public/index.html
+      echo "Connexion production: ${LOGIN_URL}"
     - ls -la public/
   artifacts:
     paths:

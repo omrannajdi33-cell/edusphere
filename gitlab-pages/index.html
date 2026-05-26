@@ -118,16 +118,6 @@
       flex-wrap: wrap;
       gap: 0.85rem;
       justify-content: center;
-      margin-bottom: 1rem;
-    }
-    .login-url {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .login-url a {
-      color: var(--primary-dark);
-      font-weight: 600;
-      word-break: break-all;
     }
     section {
       padding: 1.25rem 0 2rem;
@@ -180,18 +170,6 @@
     }
     .subject span { font-size: 1.6rem; }
     .subject small { font-size: 0.82rem; opacity: 0.95; font-weight: 600; }
-    .demo {
-      margin-top: 1rem;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.08));
-      border: 1px solid rgba(99, 102, 241, 0.15);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.35rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-    .demo-item strong { display: block; margin-bottom: 0.25rem; }
-    .demo-item span { color: var(--muted); font-size: 0.95rem; }
     footer {
       padding: 2rem 0 3rem;
       text-align: center;
@@ -199,12 +177,6 @@
       font-size: 0.92rem;
     }
     footer a { color: var(--primary-dark); font-weight: 600; }
-    code {
-      background: rgba(15, 23, 42, 0.06);
-      padding: 0.1rem 0.35rem;
-      border-radius: 0.35rem;
-      font-size: 0.9em;
-    }
   </style>
 </head>
 <body>
@@ -226,10 +198,9 @@
         points de motivation et bulletins de progression.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="__LOGIN_URL__">Accéder à la connexion</a>
+        <a class="btn btn-primary" href="__LOGIN_URL__">Se connecter</a>
         <a class="btn btn-secondary" href="#matieres">Découvrir les matières</a>
       </div>
-      <p class="login-url">Connexion : <a href="__LOGIN_URL__">__LOGIN_URL__</a></p>
     </section>
 
     <section>
@@ -237,27 +208,27 @@
       <div class="grid-3">
         <article class="card">
           <h3>📚 Modules par compétence</h3>
-          <p>Français, maths, sciences et plus : chaque compétence a son interface dédiée (lecture, écriture, oral, géométrie, natation…).</p>
+          <p>Français, maths, sciences et plus : chaque compétence a son interface dédiée — lecture, écriture, oral, géométrie, natation…</p>
         </article>
         <article class="card">
           <h3>✍️ Travail interactif</h3>
-          <p>Pages plein écran pour écrire, dessiner, surligner et soumettre — comme un cahier numérique pensé pour le stylet et le doigt.</p>
+          <p>Pages plein écran pour écrire, dessiner, surligner et soumettre — un cahier numérique pensé pour le stylet et le doigt.</p>
         </article>
         <article class="card">
           <h3>📋 Exercices & examens</h3>
-          <p>L'enseignant choisit exercice ou examen : minuterie, correction manuelle ou automatique, résultats visibles par l'élève.</p>
+          <p>Exercices ou examens avec minuterie, correction manuelle ou automatique, et résultats visibles par l'élève.</p>
         </article>
         <article class="card">
           <h3>📖 Lecture intégrée</h3>
-          <p>Texte à lire en plein écran avant l'activité, consultable à tout moment avec retour fluide vers l'exercice.</p>
+          <p>Texte en plein écran avant l'activité, consultable à tout moment pendant l'exercice ou l'examen.</p>
         </article>
         <article class="card">
           <h3>⭐ Points & motivation</h3>
-          <p>Système de points inspiré de ClassDojo : encouragements, efforts, participation — visibles par les élèves.</p>
+          <p>Système de points pour encourager la participation, l'effort et le respect — suivi clair pour chaque élève.</p>
         </article>
         <article class="card">
           <h3>👨‍🏫 Espace professeur</h3>
-          <p>Gestion des élèves, activités, corrections à l'encre, renvoi pour retravail, annonces et suivi des progrès.</p>
+          <p>Gestion des élèves, activités par niveau, corrections, annonces et suivi des progrès.</p>
         </article>
       </div>
     </section>
@@ -277,36 +248,25 @@
     </section>
 
     <section>
-      <h2>Qui utilise EduSphere ?</h2>
+      <h2>Pour qui ?</h2>
       <div class="grid-3">
         <article class="card">
-          <h3>👦 Élève</h3>
-          <p>Dashboard coloré, matières, activités assignées, lecture, travail interactif, résultats et points.</p>
+          <h3>👦 Élèves</h3>
+          <p>Dashboard coloré, matières, activités, lecture, travail interactif, résultats et points.</p>
         </article>
         <article class="card">
-          <h3>👨‍🏫 Professeur / Admin</h3>
-          <p>Création d'activités par niveau, assignation par élève, correction, points, bulletins et annonces.</p>
+          <h3>👨‍🏫 Professeur</h3>
+          <p>Création d'activités, assignation par niveau, correction, points, bulletins et annonces.</p>
         </article>
         <article class="card">
           <h3>📱 Tablette & iPad</h3>
-          <p>Interface tactile, plein écran, ajout à l'écran d'accueil — conçu d'abord pour la tablette, puis l'ordinateur.</p>
+          <p>Interface tactile, plein écran, ajout à l'écran d'accueil — conçu d'abord pour la tablette.</p>
         </article>
-      </div>
-
-      <div class="demo">
-        <div class="demo-item">
-          <strong>Compte professeur</strong>
-          <span>Identifiant : <code>prof</code> · Mot de passe : <code>prof123</code></span>
-        </div>
-        <div class="demo-item">
-          <strong>Compte élève (Ali)</strong>
-          <span>Identifiant : <code>ali</code> · Mot de passe : <code>ali123</code></span>
-        </div>
       </div>
     </section>
 
     <footer>
-      <p>EduSphere — école d'été personnalisée · Projet <a href="https://gitlab.com/omrannajdi33-group/edusphere" target="_blank" rel="noopener">GitLab</a></p>
+      <p>EduSphere — école d'été personnalisée</p>
     </footer>
   </div>
 </body>

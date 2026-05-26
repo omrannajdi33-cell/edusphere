@@ -19,7 +19,8 @@
 | Ton `APP_URL` (VPS / hébergeur PHP) | Application complète (connexion, élèves, exercices) |
 
 GitLab Pages ne peut exécuter que du HTML/CSS/JS. Laravel exige PHP + MySQL sur un vrai serveur.
-Optionnel : définir `PAGES_APP_URL` dans les variables CI pour que le bouton de la vitrine pointe vers ton app déployée.
+
+**Obligatoire pour la vitrine :** définir `APP_URL` (ou `PAGES_APP_URL`) dans **Settings → CI/CD → Variables** avec l’URL HTTPS de production (ex. `https://edusphere.tondomaine.com`). Le bouton « Se connecter » pointera vers `{APP_URL}/connexion`.
 
 ## 2. Variables GitLab (Settings → CI/CD → Variables)
 
