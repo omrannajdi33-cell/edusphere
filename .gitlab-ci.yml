@@ -108,21 +108,21 @@ pages:
     - cp gitlab-pages/404.html public/404.html
     - cp gitlab-pages/manifest.json public/manifest.json
     - |
+      set +e
       APP_LINK="${PAGES_APP_URL:-$APP_URL}"
       if [ -z "$APP_LINK" ] && [ -n "${DEPLOY_HOST:-}" ]; then
-        if echo "$DEPLOY_HOST" | grep -qE '^[0-9]+\.[0-9]+'; then
-          APP_LINK="http://${DEPLOY_HOST}"
-        else
-          APP_LINK="https://${DEPLOY_HOST}"
-        fi
+        case "$DEPLOY_HOST" in
+          [0-9]*.[0-9]*) APP_LINK="http://${DEPLOY_HOST}" ;;
+          *) APP_LINK="https://${DEPLOY_HOST}" ;;
+        esac
       fi
       if [ -z "$APP_LINK" ] && [ -f gitlab-pages/production-url ]; then
-        APP_LINK=$(grep -ve '^#' -ve '^[[:space:]]*$' gitlab-pages/production-url | head -1 | tr -d '\r\n' | sed 's|/$||')
+        APP_LINK="$(awk '!/^#/ && !/^[[:space:]]*$/ { sub(/\/$/, ""); print; exit }' gitlab-pages/production-url)"
       fi
       APP_LINK="${APP_LINK%/}"
       if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '127\.0\.0\.1|localhost'; then
-        echo "ERROR: URL locale interdite. Utilise l'URL HTTPS de production."
-        exit 1
+        echo "WARNING: APP_URL locale ignorée pour la vitrine."
+        APP_LINK=""
       fi
       if [ -z "$APP_LINK" ]; then
         echo "WARNING: APP_URL non définie — vitrine publiée, bouton Connexion inactif."
@@ -133,6 +133,8 @@ pages:
         echo "Connexion production: ${LOGIN_URL}"
       fi
       sed -i "s|__LOGIN_URL__|${LOGIN_URL}|g" public/index.html
+      set -e
+      test -f public/index.html
     - ls -la public/
   artifacts:
     paths:
