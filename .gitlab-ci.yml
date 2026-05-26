@@ -19,14 +19,21 @@ cache:
 test:php:
   stage: test
   image: php:8.3-cli
+  variables:
+    APP_ENV: testing
+    DB_CONNECTION: sqlite
+    DB_DATABASE: database/database.sqlite
+    CACHE_STORE: array
+    SESSION_DRIVER: array
+    QUEUE_CONNECTION: sync
   before_script:
-    - apt-get update -qq && apt-get install -y -qq git unzip libzip-dev libsqlite3-dev nodejs npm
+    - apt-get update -qq && apt-get install -y -qq git unzip libzip-dev libsqlite3-dev
     - docker-php-ext-install pdo pdo_sqlite zip
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - cp .env.example .env
     - composer install --prefer-dist --no-interaction --no-progress
     - php artisan key:generate --force
-    - touch database/database.sqlite
+    - mkdir -p database && touch database/database.sqlite
     - php artisan migrate --force --no-interaction
   script:
     - php artisan test
