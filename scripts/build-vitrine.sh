@@ -1,12 +1,12 @@
 #!/bin/sh
-# Publie la vitrine statique (racine du repo) pour GitLab/GitHub Pages.
+# Publie la vitrine statique (fichiers HTML à la racine du repo).
 set -e
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${VITRINE_OUT:-$ROOT/public}"
 
 rm -rf "$OUT"
-mkdir -p "$OUT/connexion"
+mkdir -p "$OUT"
 
 cp "$ROOT/index.html" "$OUT/index.html"
 cp "$ROOT/404.html" "$OUT/404.html"
@@ -39,11 +39,12 @@ set -e
 
 if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '^https?://'; then
   CONNEXION_URL="${APP_LINK}/connexion"
-  cat > "$OUT/connexion/index.html" <<EOF
+  cat > "$OUT/connexion.html" <<EOF
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <base href="/edusphere/" />
   <meta http-equiv="refresh" content="0;url=${CONNEXION_URL}" />
   <script>location.replace("${CONNEXION_URL}");</script>
   <title>Connexion — EduSphere</title>
@@ -54,7 +55,7 @@ EOF
   echo "$APP_LINK" > "$OUT/production-url"
   echo "Connexion production: ${CONNEXION_URL}"
 else
-  cp "$ROOT/connexion/index.html" "$OUT/connexion/index.html"
+  cp "$ROOT/connexion.html" "$OUT/connexion.html"
 fi
 
 touch "$OUT/.nojekyll"

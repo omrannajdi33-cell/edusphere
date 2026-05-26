@@ -4,14 +4,15 @@ Plateforme scolaire Laravel pour école d'été (7–10 ans).
 
 ## Site vitrine (GitHub Pages)
 
-Fichiers à la **racine du repo** :
+Toutes les pages sont à la **racine du repo** :
 
 ```
-index.html          ← page d'accueil
-connexion/index.html
+index.html       ← accueil
+connexion.html   ← connexion
 404.html
 manifest.json
-production-url        ← URL Laravel quand l'app sera en ligne
+production-url   ← URL Laravel (quand l'app sera en ligne)
+.nojekyll
 ```
 
 **URL :** https://omrannajdi33-cell.github.io/edusphere/
