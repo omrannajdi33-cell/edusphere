@@ -1,17 +1,19 @@
 #!/bin/sh
-# Publie la vitrine statique (fichiers HTML à la racine du repo).
+# Publie la vitrine HTML (racine du repo) pour GitLab/GitHub Pages.
 set -e
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${VITRINE_OUT:-$ROOT/public}"
 
 rm -rf "$OUT"
-mkdir -p "$OUT"
+mkdir -p "$OUT/assets"
 
 cp "$ROOT/index.html" "$OUT/index.html"
+cp "$ROOT/connexion.html" "$OUT/connexion.html"
 cp "$ROOT/404.html" "$OUT/404.html"
 cp "$ROOT/manifest.json" "$OUT/manifest.json"
 cp "$ROOT/production-url" "$OUT/production-url" 2>/dev/null || true
+cp "$ROOT/assets/edu.css" "$OUT/assets/edu.css"
 
 if [ -f "$ROOT/public/favicon.ico" ]; then
   cp "$ROOT/public/favicon.ico" "$OUT/favicon.ico"
@@ -38,24 +40,9 @@ fi
 set -e
 
 if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '^https?://'; then
-  CONNEXION_URL="${APP_LINK}/connexion"
-  cat > "$OUT/connexion.html" <<EOF
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <base href="/edusphere/" />
-  <meta http-equiv="refresh" content="0;url=${CONNEXION_URL}" />
-  <script>location.replace("${CONNEXION_URL}");</script>
-  <title>Connexion — EduSphere</title>
-</head>
-<body><p><a href="${CONNEXION_URL}">Se connecter</a></p></body>
-</html>
-EOF
   echo "$APP_LINK" > "$OUT/production-url"
-  echo "Connexion production: ${CONNEXION_URL}"
-else
-  cp "$ROOT/connexion.html" "$OUT/connexion.html"
+  sed -i "s|http://127.0.0.1:8000|${APP_LINK}|g" "$OUT/connexion.html"
+  echo "Connexion production: ${APP_LINK}/connexion"
 fi
 
 touch "$OUT/.nojekyll"
