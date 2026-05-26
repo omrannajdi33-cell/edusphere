@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="EduSphere — plateforme scolaire tactile pour école d'été, enfants 7 à 10 ans." />
   <meta name="theme-color" content="#6366f1" />
   <base href="/edusphere/" />
   <title>EduSphere — École d'été</title>
@@ -14,193 +15,299 @@
   <style>
     :root {
       --bg: #f4f6fb;
-      --card: rgba(255, 255, 255, 0.82);
+      --surface: rgba(255, 255, 255, 0.88);
       --text: #0f172a;
       --muted: #64748b;
       --primary: #6366f1;
       --primary-dark: #4f46e5;
-      --accent: #06b6d4;
-      --radius: 1.5rem;
-      --shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+      --radius: 1.35rem;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.07);
     }
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
-      min-height: 100dvh;
       font-family: "Outfit", system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 32%),
-        radial-gradient(circle at top right, rgba(6, 182, 212, 0.14), transparent 28%),
+        radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.16), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.12), transparent 30%),
         var(--bg);
+      line-height: 1.6;
     }
-    .wrap {
-      max-width: 920px;
+    .container {
+      width: min(1080px, calc(100% - 2rem));
       margin: 0 auto;
-      padding: 2rem 1.25rem 3rem;
     }
-    .hero {
-      text-align: center;
-      padding: 2.5rem 1rem 2rem;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(99, 102, 241, 0.12);
-      color: var(--primary-dark);
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    h1 {
-      font-size: clamp(2.4rem, 7vw, 4rem);
-      line-height: 1.05;
-      margin: 0 0 0.75rem;
-      letter-spacing: -0.04em;
-    }
-    .lead {
-      max-width: 38rem;
-      margin: 0 auto 1.75rem;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.65;
-    }
-    .actions {
+    header {
+      padding: 1.25rem 0 0.5rem;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
       flex-wrap: wrap;
-      gap: 0.85rem;
-      justify-content: center;
-      margin-bottom: 2rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+    .logo-mark {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 0.9rem;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 10px 24px rgba(79, 70, 229, 0.28);
     }
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 3.25rem;
+      min-height: 3rem;
       padding: 0 1.35rem;
       border-radius: 999px;
       font-weight: 700;
       text-decoration: none;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
-      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.28);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.28);
     }
     .btn-secondary {
-      background: var(--card);
+      background: var(--surface);
       color: var(--text);
       border: 1px solid rgba(15, 23, 42, 0.08);
     }
     .btn:active { transform: scale(0.98); }
-    .grid {
+    .hero {
+      padding: 3rem 0 2.5rem;
+      text-align: center;
+    }
+    .pill {
+      display: inline-flex;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.12);
+      color: var(--primary-dark);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(2.5rem, 8vw, 4.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+    .hero p {
+      max-width: 42rem;
+      margin: 0 auto 1.75rem;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .login-url {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .login-url a {
+      color: var(--primary-dark);
+      font-weight: 600;
+      word-break: break-all;
+    }
+    section {
+      padding: 1.25rem 0 2rem;
+    }
+    section h2 {
+      text-align: center;
+      margin: 0 0 1.25rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      letter-spacing: -0.03em;
+    }
+    .grid-3 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1rem;
     }
     .card {
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.75);
       border-radius: var(--radius);
       padding: 1.25rem 1.35rem;
       box-shadow: var(--shadow);
     }
-    .card h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1.15rem;
+    .card h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.08rem;
     }
     .card p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.55;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
     }
-    .note {
-      margin-top: 1.5rem;
-      padding: 1rem 1.15rem;
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+    .subject {
       border-radius: 1rem;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px dashed rgba(99, 102, 241, 0.25);
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      padding: 1rem;
+      color: #fff;
+      font-weight: 700;
+      text-align: center;
+      min-height: 5.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      box-shadow: var(--shadow);
     }
+    .subject span { font-size: 1.6rem; }
+    .subject small { font-size: 0.82rem; opacity: 0.95; font-weight: 600; }
+    .demo {
+      margin-top: 1rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .demo-item strong { display: block; margin-bottom: 0.25rem; }
+    .demo-item span { color: var(--muted); font-size: 0.95rem; }
+    footer {
+      padding: 2rem 0 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    footer a { color: var(--primary-dark); font-weight: 600; }
     code {
       background: rgba(15, 23, 42, 0.06);
-      padding: 0.12rem 0.4rem;
-      border-radius: 0.4rem;
-      font-size: 0.88em;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-mark">E</div>
+        <span>EduSphere</span>
+      </div>
+      <a class="btn btn-primary" href="__LOGIN_URL__">Se connecter</a>
+    </header>
+
     <section class="hero">
-      <div class="badge">E · École d'été · Tablette first</div>
-      <h1>EduSphere</h1>
-      <p class="lead">
-        Plateforme scolaire modulaire pour élèves de 7 à 10 ans.
-        Cette adresse GitLab Pages affiche la vitrine du projet.
+      <div class="pill">École d'été · 7 à 10 ans · Pensé tablette</div>
+      <h1>Ton école d'été,<br />dans ta poche.</h1>
+      <p>
+        EduSphere est une plateforme scolaire immersive où chaque matière possède ses propres outils :
+        lecture plein écran, écriture tactile, exercices interactifs, examens chronométrés,
+        points de motivation et bulletins de progression.
       </p>
-      <div class="actions">
-        <a class="btn btn-primary" id="open-app" href="#">Ouvrir l'application</a>
-        <a class="btn btn-secondary" href="https://gitlab.com/omrannajdi33-group/edusphere" target="_blank" rel="noopener">Voir le code GitLab</a>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="__LOGIN_URL__">Accéder à la connexion</a>
+        <a class="btn btn-secondary" href="#matieres">Découvrir les matières</a>
+      </div>
+      <p class="login-url">Connexion : <a href="__LOGIN_URL__">__LOGIN_URL__</a></p>
+    </section>
+
+    <section>
+      <h2>Une vraie expérience scolaire</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>📚 Modules par compétence</h3>
+          <p>Français, maths, sciences et plus : chaque compétence a son interface dédiée (lecture, écriture, oral, géométrie, natation…).</p>
+        </article>
+        <article class="card">
+          <h3>✍️ Travail interactif</h3>
+          <p>Pages plein écran pour écrire, dessiner, surligner et soumettre — comme un cahier numérique pensé pour le stylet et le doigt.</p>
+        </article>
+        <article class="card">
+          <h3>📋 Exercices & examens</h3>
+          <p>L'enseignant choisit exercice ou examen : minuterie, correction manuelle ou automatique, résultats visibles par l'élève.</p>
+        </article>
+        <article class="card">
+          <h3>📖 Lecture intégrée</h3>
+          <p>Texte à lire en plein écran avant l'activité, consultable à tout moment avec retour fluide vers l'exercice.</p>
+        </article>
+        <article class="card">
+          <h3>⭐ Points & motivation</h3>
+          <p>Système de points inspiré de ClassDojo : encouragements, efforts, participation — visibles par les élèves.</p>
+        </article>
+        <article class="card">
+          <h3>👨‍🏫 Espace professeur</h3>
+          <p>Gestion des élèves, activités, corrections à l'encre, renvoi pour retravail, annonces et suivi des progrès.</p>
+        </article>
       </div>
     </section>
 
-    <section class="grid">
-      <article class="card">
-        <h2>📱 Application complète</h2>
-        <p>
-          La connexion élève/prof, les exercices, examens et corrections tournent sur un serveur Laravel (PHP + base de données).
-          GitLab Pages ne peut pas exécuter Laravel directement.
-        </p>
-      </article>
-      <article class="card">
-        <h2>💻 Développement local</h2>
-        <p>
-          Sur ton PC : <code>php artisan serve</code> puis ouvre
-          <code>http://127.0.0.1:8000/connexion</code>.
-          Comptes démo : <code>prof</code> / <code>ali</code>.
-        </p>
-      </article>
-      <article class="card">
-        <h2>🚀 Mise en ligne</h2>
-        <p>
-          Utilise le job GitLab <strong>deploy:production</strong> vers un VPS,
-          ou un hébergeur PHP (Railway, Render, Hostinger).
-        </p>
-      </article>
+    <section id="matieres">
+      <h2>8 matières, chacune avec sa personnalité</h2>
+      <div class="subjects">
+        <div class="subject" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><span>🇫🇷</span><small>Français</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><span>➗</span><small>Mathématiques</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #10b981, #059669);"><span>🔬</span><small>Sciences</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #f97316, #ea580c);"><span>🏛️</span><small>Histoire</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #06b6d4, #0891b2);"><span>🌍</span><small>Géographie</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #14b8a6, #0d9488);"><span>☪️</span><small>Islam</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #f43f5e, #e11d48);"><span>🏃</span><small>Éducation physique</small></div>
+        <div class="subject" style="background: linear-gradient(135deg, #22d3ee, #0284c7);"><span>🏊</span><small>Natation</small></div>
+      </div>
     </section>
 
-    <p class="note" id="app-url-note">
-      Configure la variable CI/CD <code>APP_URL</code> (ou <code>PAGES_APP_URL</code>) avec l'adresse de ton serveur Laravel
-      pour que le bouton « Ouvrir l'application » pointe vers la vraie app.
-    </p>
+    <section>
+      <h2>Qui utilise EduSphere ?</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>👦 Élève</h3>
+          <p>Dashboard coloré, matières, activités assignées, lecture, travail interactif, résultats et points.</p>
+        </article>
+        <article class="card">
+          <h3>👨‍🏫 Professeur / Admin</h3>
+          <p>Création d'activités par niveau, assignation par élève, correction, points, bulletins et annonces.</p>
+        </article>
+        <article class="card">
+          <h3>📱 Tablette & iPad</h3>
+          <p>Interface tactile, plein écran, ajout à l'écran d'accueil — conçu d'abord pour la tablette, puis l'ordinateur.</p>
+        </article>
+      </div>
+
+      <div class="demo">
+        <div class="demo-item">
+          <strong>Compte professeur</strong>
+          <span>Identifiant : <code>prof</code> · Mot de passe : <code>prof123</code></span>
+        </div>
+        <div class="demo-item">
+          <strong>Compte élève (Ali)</strong>
+          <span>Identifiant : <code>ali</code> · Mot de passe : <code>ali123</code></span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>EduSphere — école d'été personnalisée · Projet <a href="https://gitlab.com/omrannajdi33-group/edusphere" target="_blank" rel="noopener">GitLab</a></p>
+    </footer>
   </div>
-
-  <script>
-    (function () {
-      var params = new URLSearchParams(window.location.search);
-      var fromMeta = document.querySelector('meta[name="edusphere-app-url"]');
-      var appUrl = params.get('app') || (fromMeta && fromMeta.content) || '';
-      var btn = document.getElementById('open-app');
-      var note = document.getElementById('app-url-note');
-
-      if (appUrl) {
-        btn.href = appUrl.replace(/\/$/, '') + '/connexion';
-        btn.textContent = 'Se connecter à EduSphere';
-        note.innerHTML = 'Application hébergée sur <code>' + appUrl + '</code>.';
-      } else {
-        btn.href = 'https://gitlab.com/omrannajdi33-group/edusphere/-/blob/main/deploy/DEPLOIEMENT.md';
-        btn.textContent = 'Guide de déploiement';
-      }
-    })();
-  </script>
 </body>
 </html>

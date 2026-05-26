@@ -108,10 +108,10 @@ pages:
     - cp gitlab-pages/404.html public/404.html
     - cp gitlab-pages/manifest.json public/manifest.json
     - |
-      APP_LINK="${PAGES_APP_URL:-$APP_URL}"
-      if [ -n "$APP_LINK" ] && [ "$APP_LINK" != "https://edusphere.example.com" ]; then
-        sed -i "s|<head>|<head><meta name=\"edusphere-app-url\" content=\"${APP_LINK}\">|" public/index.html
-      fi
+      APP_LINK="${PAGES_APP_URL:-${APP_URL:-http://127.0.0.1:8000}}"
+      APP_LINK="${APP_LINK%/}"
+      LOGIN_URL="${APP_LINK}/connexion"
+      sed -i "s|__LOGIN_URL__|${LOGIN_URL}|g" public/index.html
     - ls -la public/
   artifacts:
     paths:
