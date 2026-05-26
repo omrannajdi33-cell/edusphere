@@ -37,11 +37,51 @@ class ActivityController extends Controller
             ['status' => SubmissionStatus::Draft]
         );
 
-        if ($activity->type === ActivityType::Pdf) {
-            return view('student.activities.worksheet', compact('activity', 'submission'));
+        if (! $submission->canAccessActivity()) {
+            return redirect()
+                ->route('student.activites.resultat', $activity)
+                ->with('info', 'Cette activité est déjà terminée.');
         }
 
-        return view('student.activities.dynamic', compact('activity', 'submission'));
+        if ($activity->isExam() && $submission->status === SubmissionStatus::Draft && ! $submission->exam_started_at) {
+            $submission->update(['exam_started_at' => now()]);
+            $submission->refresh();
+        }
+
+        $module = $activity->competency->resolveModule();
+
+        return view($module->resolveStudentView($activity), compact('activity', 'submission', 'module'));
+    }
+
+    public function saveProgress(Request $request, Activity $activity): JsonResponse
+    {
+        $student = Auth::user();
+
+        abort_unless($activity->is_published, 404);
+        abort_unless(
+            Activity::query()->published()->forStudent($student)->whereKey($activity->id)->exists(),
+            403
+        );
+
+        $submission = $this->findSubmission($activity, $student);
+        abort_unless($submission->canAccessActivity(), 403);
+
+        $answers = $submission->answers ?? [];
+
+        if ($request->has('answers') && is_array($request->input('answers'))) {
+            $answers = array_replace_recursive($answers, $request->input('answers'));
+        }
+
+        if ($request->has('module_data') && is_array($request->input('module_data'))) {
+            $answers['_module'] = array_merge($answers['_module'] ?? [], $request->input('module_data'));
+        }
+
+        $submission->update(['answers' => $answers]);
+
+        return response()->json([
+            'ok' => true,
+            'saved_at' => now()->toIso8601String(),
+        ]);
     }
 
     public function saveAnnotations(
@@ -125,15 +165,23 @@ class ActivityController extends Controller
         $submission = $this->findSubmission($activity, $student);
 
         if (! $processor->canSubmit($activity, $submission)) {
-            return back()->with('error', 'Tu ne peux plus modifier cette épreuve (examen déjà envoyé).');
+            return redirect()
+                ->route('student.activites.resultat', $activity)
+                ->with('info', 'Cette activité est déjà terminée.');
         }
 
-        $submission = $processor->process($activity, $submission, $request->input('answers', []));
+        $module = $activity->competency->resolveModule();
+        $answers = $module->mergeSubmissionPayload(
+            $request->input('answers', []),
+            $request->input('module_data', [])
+        );
+
+        $submission = $processor->process($activity, $submission, $answers);
 
         if ($submission->status === SubmissionStatus::Submitted) {
             return redirect()
                 ->route('student.activites.resultat', $activity)
-                ->with('success', 'Examen envoyé ! Le professeur va corriger les questions restantes.');
+                ->with('success', 'Exercice envoyé ! Le professeur va le corriger.');
         }
 
         $message = $activity->isExam()
@@ -162,12 +210,9 @@ class ActivityController extends Controller
         abort_unless($submission->status !== SubmissionStatus::Draft, 404);
 
         $activity->load(['competency.subject', 'sections.questions']);
+        $module = $activity->competency->resolveModule();
 
-        if ($activity->type === ActivityType::Pdf) {
-            return view('student.activities.worksheet-result', compact('activity', 'submission'));
-        }
-
-        return view('student.activities.result', compact('activity', 'submission'));
+        return view($module->resolveResultView($activity), compact('activity', 'submission', 'module'));
     }
 
     private function authorizeWorksheet(Activity $activity, $student): void

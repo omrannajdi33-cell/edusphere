@@ -63,6 +63,7 @@ Route::middleware(['auth', 'student'])->prefix('eleve')->name('student.')->group
     Route::get('matieres', [StudentSubjectController::class, 'index'])->name('matieres.index');
     Route::get('matieres/{subject}', [StudentSubjectController::class, 'show'])->name('matieres.show');
     Route::get('activites/{activity}', [StudentActivityController::class, 'show'])->name('activites.show');
+    Route::post('activites/{activity}/progression', [StudentActivityController::class, 'saveProgress'])->name('activites.progress');
     Route::post('activites/{activity}/annotations', [StudentActivityController::class, 'saveAnnotations'])->name('activites.annotations');
     Route::post('activites/{activity}/soumettre', [StudentActivityController::class, 'submit'])->name('activites.submit');
     Route::get('activites/{activity}/resultat', [StudentActivityController::class, 'result'])->name('activites.resultat');

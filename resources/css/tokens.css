@@ -1,0 +1,18 @@
+:root {
+    --edu-bg: #eef2ff;
+    --edu-glass: rgba(255, 255, 255, 0.72);
+    --edu-glass-strong: rgba(255, 255, 255, 0.88);
+    --edu-glass-border: rgba(255, 255, 255, 0.95);
+    --edu-text: #1e293b;
+    --edu-text-muted: #64748b;
+    --edu-primary: #6366f1;
+    --edu-primary-dark: #4f46e5;
+    --edu-violet: #8b5cf6;
+    --edu-pink: #ec4899;
+    --edu-cyan: #06b6d4;
+    --edu-amber: #f59e0b;
+    --edu-radius: 1.25rem;
+    --edu-radius-lg: 1.75rem;
+    --edu-shadow: 0 8px 32px rgba(99, 102, 241, 0.12), 0 2px 8px rgba(15, 23, 42, 0.05);
+    --edu-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}

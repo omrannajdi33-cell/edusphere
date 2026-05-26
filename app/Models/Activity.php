@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\ActivityPurpose;
 use App\ActivityType;
+use App\GradingMode;
 use App\StudentLevel;
+use App\SubmissionStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +22,8 @@ class Activity extends Model
         'slug',
         'type',
         'purpose',
+        'grading_mode',
+        'exam_duration_minutes',
         'description',
         'reading_text',
         'reading_pdf_path',
@@ -34,6 +38,7 @@ class Activity extends Model
         return [
             'type' => ActivityType::class,
             'purpose' => ActivityPurpose::class,
+            'grading_mode' => GradingMode::class,
             'level' => StudentLevel::class,
             'is_published' => 'boolean',
         ];
@@ -128,6 +133,19 @@ class Activity extends Model
         return $this->pdf_path
             ? Storage::disk('public')->url($this->pdf_path)
             : null;
+    }
+
+    public function scopeAvailableForStudent(Builder $query, User $student): Builder
+    {
+        return $query->whereDoesntHave('submissions', function (Builder $q) use ($student) {
+            $q->where('student_id', $student->id)
+                ->whereIn('status', [SubmissionStatus::Submitted, SubmissionStatus::Graded]);
+        });
+    }
+
+    public function usesManualGrading(): bool
+    {
+        return $this->grading_mode === GradingMode::Manual;
     }
 
     public function assignmentLabel(): string

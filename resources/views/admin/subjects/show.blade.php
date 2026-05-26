@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -6,9 +6,9 @@
         <span class="text-4xl">{{ $subject->icon }}</span>
         <div>
             <h2 class="text-2xl font-extrabold" style="color: {{ $subject->color }}">{{ $subject->name }}</h2>
-            <p class="text-slate-600">Compétences et activités — filtre par niveau</p>
+            <p class="edu-subtitle">Compétences et activités — filtre par niveau</p>
         </div>
-        <a href="{{ route('admin.matieres.index') }}" class="ml-auto text-sm font-semibold text-indigo-600">← Retour</a>
+        <a href="{{ route('admin.matieres.index') }}" class="ml-auto edu-link text-sm">← Retour</a>
     </div>
 
     <div class="flex flex-wrap gap-2">
@@ -25,15 +25,15 @@
     </div>
 
     @foreach ($subject->competencies as $competency)
-        <section class="rounded-2xl bg-white p-5 shadow-sm">
+        <section class="edu-glass p-5">
             <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-bold text-slate-800">{{ $competency->name }}</h3>
-                    @if ($competency->module_type)
-                        <p class="text-xs text-slate-500">Module : {{ $competency->module_type }}</p>
+                    @if ($competency->moduleTypeEnum())
+                        <p class="text-xs font-medium text-indigo-600">{{ $competency->moduleTypeEnum()->icon() }} Module {{ $competency->moduleTypeEnum()->label() }}</p>
                     @endif
                 </div>
-                <a href="{{ route('admin.competences.activites.create', $competency) }}" class="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-bold text-white">+ Activité</a>
+                <a href="{{ route('admin.competences.activites.create', $competency) }}" class="edu-btn-primary px-4 py-2 text-sm">+ Activité</a>
             </div>
 
             <div class="space-y-2">
@@ -51,7 +51,7 @@
                                 @endif
                             </p>
                         </div>
-                        <a href="{{ route('admin.competences.activites.edit', [$competency, $activity]) }}" class="text-sm font-semibold text-indigo-600">Modifier</a>
+                        <a href="{{ route('admin.competences.activites.edit', [$competency, $activity]) }}" class="edu-link text-sm">Modifier</a>
                     </div>
                 @empty
                     <p class="text-sm text-slate-500">Aucune activité pour ce filtre.</p>

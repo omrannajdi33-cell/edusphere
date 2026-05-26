@@ -20,9 +20,11 @@ class ActivitySubmission extends Model
         'percentage',
         'needs_manual_review',
         'teacher_comment',
+        'grading_details',
         'graded_by_id',
         'graded_at',
         'submitted_at',
+        'exam_started_at',
     ];
 
     protected function casts(): array
@@ -35,6 +37,8 @@ class ActivitySubmission extends Model
             'needs_manual_review' => 'boolean',
             'submitted_at' => 'datetime',
             'graded_at' => 'datetime',
+            'exam_started_at' => 'datetime',
+            'grading_details' => 'array',
         ];
     }
 
@@ -65,6 +69,16 @@ class ActivitySubmission extends Model
     }
 
     public function canEditWorksheet(): bool
+    {
+        return in_array($this->status, [SubmissionStatus::Draft, SubmissionStatus::Returned], true);
+    }
+
+    public function isCompleted(): bool
+    {
+        return in_array($this->status, [SubmissionStatus::Submitted, SubmissionStatus::Graded], true);
+    }
+
+    public function canAccessActivity(): bool
     {
         return in_array($this->status, [SubmissionStatus::Draft, SubmissionStatus::Returned], true);
     }

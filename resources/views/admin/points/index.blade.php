@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div
@@ -19,8 +19,8 @@
     @endif
 
     <div>
-        <h2 class="text-2xl font-extrabold text-slate-800">Points — style ClassDojo</h2>
-        <p class="text-slate-600">Clique sur un élève, puis choisis une action positive ou à améliorer.</p>
+        <h2 class="edu-title">Points — style ClassDojo</h2>
+        <p class="edu-subtitle">Clique sur un élève, puis choisis une action positive ou à améliorer.</p>
     </div>
 
     <section>
@@ -37,7 +37,7 @@
                     class="group flex aspect-square flex-col items-center justify-center rounded-3xl border-2 border-white bg-white p-4 shadow-md transition hover:scale-[1.03] hover:shadow-lg active:scale-95"
                 >
                     <div
-                        class="mb-3 flex h-20 w-20 items-center justify-center rounded-2xl text-3xl font-extrabold text-white shadow-inner sm:h-24 sm:w-24"
+                        class="mb-3 flex h-20 w-20 items-center justify-center rounded-2xl edu-title shadow-inner sm:h-24 sm:w-24"
                         style="background: hsl({{ $hue }} 65% 48%)"
                     >{{ $initial }}</div>
                     <p class="line-clamp-2 text-center text-sm font-bold text-slate-800">{{ $student->name }}</p>
@@ -104,7 +104,7 @@
     </div>
 
     <section class="grid gap-8 lg:grid-cols-2">
-        <div class="rounded-2xl bg-white p-5 shadow-sm">
+        <div class="edu-glass p-5">
             <h3 class="mb-4 font-bold text-slate-800">Ajouter une action</h3>
             <form method="POST" action="{{ route('admin.points.behaviors.store') }}" class="space-y-3">
                 @csrf
@@ -117,11 +117,11 @@
                     </select>
                 </div>
                 <input type="text" name="icon" maxlength="4" placeholder="Emoji (optionnel)" class="w-full rounded-xl border px-4 py-2">
-                <button type="submit" class="w-full rounded-xl bg-indigo-600 py-2 font-bold text-white">Ajouter</button>
+                <button type="submit" class="edu-btn-primary w-full py-2">Ajouter</button>
             </form>
         </div>
 
-        <div class="rounded-2xl bg-white p-5 shadow-sm">
+        <div class="edu-glass p-5">
             <h3 class="mb-4 font-bold text-slate-800">Activité récente</h3>
             <div class="max-h-80 space-y-2 overflow-y-auto">
                 @forelse ($recent as $tx)

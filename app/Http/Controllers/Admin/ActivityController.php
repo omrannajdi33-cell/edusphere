@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\ActivityPurpose;
 use App\ActivityType;
+use App\GradingMode;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\ActivitySection;
@@ -37,6 +38,8 @@ class ActivityController extends Controller
             'slug' => Str::slug($data['slug'] ?? $data['title']),
             'type' => $data['type'],
             'purpose' => ActivityPurpose::from($data['purpose']),
+            'grading_mode' => GradingMode::from($data['grading_mode']),
+            'exam_duration_minutes' => $data['purpose'] === 'exam' ? ($data['exam_duration_minutes'] ?? 45) : null,
             'description' => $data['description'] ?? null,
             'reading_text' => $reading['text'],
             'reading_pdf_path' => $reading['pdf_path'],
@@ -81,6 +84,8 @@ class ActivityController extends Controller
             'slug' => Str::slug($data['slug'] ?? $data['title']),
             'type' => $data['type'],
             'purpose' => ActivityPurpose::from($data['purpose']),
+            'grading_mode' => GradingMode::from($data['grading_mode']),
+            'exam_duration_minutes' => $data['purpose'] === 'exam' ? ($data['exam_duration_minutes'] ?? 45) : null,
             'description' => $data['description'] ?? null,
             'reading_text' => $reading['text'],
             'reading_pdf_path' => $reading['pdf_path'],
@@ -147,6 +152,7 @@ class ActivityController extends Controller
             'activity' => $activity,
             'types' => ActivityType::cases(),
             'purposes' => ActivityPurpose::cases(),
+            'gradingModes' => GradingMode::cases(),
             'questionTypes' => QuestionType::cases(),
             'levels' => StudentLevel::cases(),
             'students' => User::query()->where('role', UserRole::Student)->orderBy('name')->get(),
@@ -189,6 +195,8 @@ class ActivityController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
             'purpose' => ['required', 'in:exercise,exam'],
+            'grading_mode' => ['required', 'in:automatic,manual'],
+            'exam_duration_minutes' => ['nullable', 'integer', 'min:5', 'max:240'],
             'type' => ['required', 'in:pdf,dynamic'],
             'description' => ['nullable', 'string'],
             'reading_mode' => ['required', 'in:none,text,pdf'],

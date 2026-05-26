@@ -1,18 +1,18 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-extrabold text-slate-800">Élèves</h2>
-            <p class="text-slate-600">Gère les comptes élèves de l'école d'été.</p>
+            <h2 class="edu-title">Élèves</h2>
+            <p class="edu-subtitle">Gère les comptes élèves de l'école d'été.</p>
         </div>
-        <a href="{{ route('admin.eleves.create') }}" class="touch-target rounded-xl bg-indigo-600 px-5 py-3 font-bold text-white hover:bg-indigo-700">+ Ajouter un élève</a>
+        <a href="{{ route('admin.eleves.create') }}" class="edu-btn-primary touch-target px-5 py-3">+ Ajouter un élève</a>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         @foreach ($students as $student)
-            <article class="rounded-2xl bg-white p-5 shadow-sm">
+            <article class="edu-glass p-5">
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h3 class="text-lg font-bold text-slate-800">{{ $student->name }}</h3>
@@ -24,8 +24,8 @@
                 </div>
                 <p class="mt-4 text-sm text-slate-600">⭐ {{ $student->points_total }} points</p>
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <a href="{{ route('admin.eleves.show', $student) }}" class="rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200">Voir</a>
-                    <a href="{{ route('admin.eleves.edit', $student) }}" class="rounded-lg bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-100">Modifier</a>
+                    <a href="{{ route('admin.eleves.show', $student) }}" class="edu-btn-secondary px-3 py-2 text-sm">Voir</a>
+                    <a href="{{ route('admin.eleves.edit', $student) }}" class="edu-btn-secondary px-3 py-2 text-sm text-indigo-700">Modifier</a>
                 </div>
             </article>
         @endforeach

@@ -1,35 +1,68 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="flex min-h-[calc(100dvh-8rem)] flex-col gap-4">
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<div class="flex h-[calc(100dvh-5rem)] flex-col gap-4">
+    <div class="flex shrink-0 flex-wrap items-center justify-between gap-3">
         <div>
-            <p class="text-sm text-slate-400">{{ $submission->activity->competency->subject->name }}</p>
-            <h2 class="text-2xl font-extrabold text-white">{{ $submission->activity->title }}</h2>
-            <p class="text-slate-300">Élève : <strong class="text-white">{{ $submission->student->name }}</strong></p>
+            <p class="edu-kicker">{{ $submission->activity->competency->subject->name }}</p>
+            <h2 class="edu-title">{{ $submission->activity->title }}</h2>
+            <p class="edu-subtitle">Élève : <strong>{{ $submission->student->name }}</strong></p>
         </div>
-        <a href="{{ route('admin.corrections.index') }}" class="rounded-xl bg-white/10 px-4 py-2 text-sm font-bold text-white">← Retour</a>
+        <a href="{{ route('admin.corrections.index') }}" class="edu-btn-secondary">← Retour</a>
     </div>
 
-    <form id="worksheet-correction-form" method="POST" action="{{ route('admin.corrections.update', $submission) }}" class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60">
+    <form id="worksheet-correction-form" method="POST" action="{{ route('admin.corrections.update', $submission) }}" class="grid min-h-0 flex-1 gap-4 lg:grid-cols-2">
         @csrf
         @method('PUT')
         <input type="hidden" name="annotations" id="teacher-annotations-input" value="">
 
-        <div class="flex shrink-0 flex-wrap items-end gap-4 border-b border-white/10 p-4">
-            <div>
-                <label class="mb-1 block text-xs font-bold uppercase text-slate-400">Note /100</label>
-                <input type="number" name="score" min="0" max="100" value="{{ old('score', $submission->score) }}" class="w-28 rounded-xl border-0 bg-white/10 px-4 py-2 font-bold text-white">
+        <div class="edu-glass flex min-h-0 flex-col overflow-hidden">
+            <div class="shrink-0 border-b border-white/60 p-4">
+                <p class="edu-kicker">Feuille de l'élève</p>
             </div>
-            <div class="min-w-[16rem] flex-1">
-                <label class="mb-1 block text-xs font-bold uppercase text-slate-400">Commentaire</label>
-                <input type="text" name="teacher_comment" value="{{ old('teacher_comment', $submission->teacher_comment) }}" class="w-full rounded-xl border-0 bg-white/10 px-4 py-2 text-white" placeholder="Bravo, attention aux accords…">
+            <div class="min-h-0 flex-1 overflow-hidden">
+                <x-worksheet-viewer :activity="$submission->activity" :submission="$submission" mode="teacher" :read-only="false" />
             </div>
-            <button type="submit" name="action" value="return" class="touch-target rounded-xl bg-amber-500 px-5 py-3 font-bold text-slate-900">Renvoyer à corriger</button>
-            <button type="submit" name="action" value="validate" class="touch-target rounded-xl bg-teal-500 px-5 py-3 font-bold text-white">Valider la correction</button>
         </div>
 
-        <x-worksheet-viewer :activity="$submission->activity" :submission="$submission" mode="teacher" :read-only="false" />
+        <div class="edu-glass flex min-h-0 flex-col overflow-hidden">
+            @php
+                $details = old('grading_details', $submission->grading_details ?? []);
+                $criteria = \App\GradingCriterion::options();
+            @endphp
+            <div class="shrink-0 border-b border-white/60 p-5">
+                <p class="edu-kicker">Fiche de correction</p>
+            </div>
+            <div class="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
+                <div>
+                    <label class="edu-label">Note /100</label>
+                    <input type="number" name="score" min="0" max="100" value="{{ old('score', $submission->score) }}" class="edu-input text-lg font-bold">
+                </div>
+                <div>
+                    <label class="edu-label">Commentaire</label>
+                    <textarea name="teacher_comment" rows="3" class="edu-textarea">{{ old('teacher_comment', $submission->teacher_comment) }}</textarea>
+                </div>
+                <div>
+                    <label class="edu-label">Genre / type</label>
+                    <input type="text" name="grading_details[genre]" value="{{ $details['genre'] ?? '' }}" class="edu-input">
+                </div>
+                @foreach (['effort' => 'Effort fourni', 'comprehension' => 'Compréhension', 'expression' => 'Expression', 'orthographe' => 'Orthographe', 'progression' => 'Progression'] as $key => $label)
+                    <div>
+                        <label class="edu-label">{{ $label }}</label>
+                        <select name="grading_details[{{ $key }}]" class="edu-input">
+                            <option value="">— Choisir —</option>
+                            @foreach ($criteria as $value => $cLabel)
+                                <option value="{{ $value }}" @selected(($details[$key] ?? '') === $value)>{{ $cLabel }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endforeach
+            </div>
+            <div class="flex shrink-0 flex-wrap gap-3 border-t border-white/60 p-5">
+                <button type="submit" name="action" value="return" class="rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white">Renvoyer à corriger</button>
+                <button type="submit" name="action" value="validate" class="edu-btn-primary flex-1">Valider la correction</button>
+            </div>
+        </div>
     </form>
 </div>
 

@@ -1,19 +1,19 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="mx-auto max-w-2xl space-y-6">
-    <h2 class="text-2xl font-extrabold text-slate-800">Nouvelle annonce</h2>
+    <h2 class="edu-title">Nouvelle annonce</h2>
 
-    <form method="POST" action="{{ route('admin.annonces.store') }}" class="space-y-4 rounded-2xl bg-white p-6 shadow-sm">
+    <form method="POST" action="{{ route('admin.annonces.store') }}" class="space-y-4 edu-glass p-6 space-y-4">
         @csrf
         <div>
-            <label for="title" class="mb-2 block text-sm font-semibold text-slate-700">Titre</label>
-            <input id="title" name="title" value="{{ old('title') }}" required class="w-full rounded-xl border border-slate-200 px-4 py-3">
+            <label for="title" class="edu-label">Titre</label>
+            <input id="title" name="title" value="{{ old('title') }}" required class="edu-input">
             @error('title')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
         </div>
         <div>
-            <label for="body" class="mb-2 block text-sm font-semibold text-slate-700">Message</label>
-            <textarea id="body" name="body" rows="6" required class="w-full rounded-xl border border-slate-200 px-4 py-3">{{ old('body') }}</textarea>
+            <label for="body" class="edu-label">Message</label>
+            <textarea id="body" name="body" rows="6" required class="edu-input">{{ old('body') }}</textarea>
             @error('body')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
         </div>
         <label class="flex items-center gap-2">
@@ -21,8 +21,8 @@
             <span class="text-sm font-semibold text-slate-700">Publier immédiatement</span>
         </label>
         <div class="flex gap-3">
-            <button type="submit" class="rounded-xl bg-indigo-600 px-5 py-3 font-bold text-white">Enregistrer</button>
-            <a href="{{ route('admin.annonces.index') }}" class="rounded-xl bg-slate-100 px-5 py-3 font-semibold text-slate-700">Annuler</a>
+            <button type="submit" class="edu-btn-primary px-5 py-3">Enregistrer</button>
+            <a href="{{ route('admin.annonces.index') }}" class="edu-btn-secondary px-5 py-3">Annuler</a>
         </div>
     </form>
 </div>

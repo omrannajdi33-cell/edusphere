@@ -18,8 +18,32 @@ enum ActivityPurpose: string
     public function badgeColor(): string
     {
         return match ($this) {
-            self::Exercise => 'bg-sky-100 text-sky-800',
-            self::Exam => 'bg-rose-100 text-rose-800',
+            self::Exercise => 'bg-sky-500 text-white',
+            self::Exam => 'bg-rose-600 text-white',
+        };
+    }
+
+    public function chipClass(): string
+    {
+        return match ($this) {
+            self::Exercise => 'edu-purpose-exercise',
+            self::Exam => 'edu-purpose-exam',
+        };
+    }
+
+    public function icon(): string
+    {
+        return match ($this) {
+            self::Exercise => '📝',
+            self::Exam => '📋',
+        };
+    }
+
+    public function studentDescription(): string
+    {
+        return match ($this) {
+            self::Exercise => 'Exercice d\'entraînement — tu peux t\'entraîner sans pression.',
+            self::Exam => 'Examen officiel — compte pour le bulletin, une seule tentative.',
         };
     }
 

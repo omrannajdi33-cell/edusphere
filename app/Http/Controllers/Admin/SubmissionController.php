@@ -53,17 +53,25 @@ class SubmissionController extends Controller
         $data = $request->validate([
             'score' => ['required', 'integer', 'min:0'],
             'teacher_comment' => ['nullable', 'string'],
+            'grading_details' => ['nullable', 'array'],
+            'grading_details.genre' => ['nullable', 'string', 'max:255'],
+            'grading_details.effort' => ['nullable', 'string'],
+            'grading_details.comprehension' => ['nullable', 'string'],
+            'grading_details.expression' => ['nullable', 'string'],
+            'grading_details.orthographe' => ['nullable', 'string'],
+            'grading_details.progression' => ['nullable', 'string'],
         ]);
 
         $submission->update([
             'score' => min($data['score'], $submission->max_score ?? $data['score']),
+            'grading_details' => array_filter($data['grading_details'] ?? []),
         ]);
 
         $processor->finalizeExamGrade($submission, $submission->score, $data['teacher_comment'] ?? null);
 
         return redirect()
             ->route('admin.corrections.index')
-            ->with('success', 'Correction enregistrée — note comptée au bulletin.');
+            ->with('success', 'Correction enregistrée.');
     }
 
     private function updateWorksheet(
@@ -75,6 +83,13 @@ class SubmissionController extends Controller
             'annotations' => ['nullable', 'string'],
             'score' => ['nullable', 'integer', 'min:0', 'max:100'],
             'teacher_comment' => ['nullable', 'string'],
+            'grading_details' => ['nullable', 'array'],
+            'grading_details.genre' => ['nullable', 'string', 'max:255'],
+            'grading_details.effort' => ['nullable', 'string'],
+            'grading_details.comprehension' => ['nullable', 'string'],
+            'grading_details.expression' => ['nullable', 'string'],
+            'grading_details.orthographe' => ['nullable', 'string'],
+            'grading_details.progression' => ['nullable', 'string'],
             'action' => ['required', 'in:validate,return'],
         ]);
 
@@ -95,6 +110,7 @@ class SubmissionController extends Controller
                 'status' => SubmissionStatus::Returned,
                 'needs_manual_review' => false,
                 'teacher_comment' => $data['teacher_comment'] ?? null,
+                'grading_details' => array_filter($data['grading_details'] ?? []),
             ]);
 
             return redirect()
@@ -110,12 +126,13 @@ class SubmissionController extends Controller
             'max_score' => 100,
             'percentage' => $data['score'] ?? $submission->score,
             'teacher_comment' => $data['teacher_comment'] ?? null,
+            'grading_details' => array_filter($data['grading_details'] ?? []),
             'graded_at' => now(),
             'graded_by_id' => auth()->id(),
         ]);
 
         return redirect()
             ->route('admin.corrections.index')
-            ->with('success', 'Correction validée — l\'élève peut consulter ta correction.');
+            ->with('success', 'Correction validée.');
     }
 }

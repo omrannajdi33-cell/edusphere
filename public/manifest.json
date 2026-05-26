@@ -1,11 +1,11 @@
 {
     "name": "EduSphere",
     "short_name": "EduSphere",
-    "description": "Plateforme scolaire pour école d'été",
+    "description": "Plateforme scolaire premium pour école d'été",
     "start_url": "/connexion",
     "display": "standalone",
-    "background_color": "#0f172a",
-    "theme_color": "#0f172a",
+    "background_color": "#eef2ff",
+    "theme_color": "#6366f1",
     "orientation": "any",
     "icons": [
         {

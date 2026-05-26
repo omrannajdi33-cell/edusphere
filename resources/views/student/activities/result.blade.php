@@ -1,22 +1,26 @@
 @extends('layouts.student')
 
 @section('content')
-<div class="mx-auto w-full max-w-3xl space-y-6 pb-24 text-center" x-data="{ view: 'result' }">
-    <header class="w-full rounded-3xl bg-white p-6 shadow-sm">
-        <span class="rounded-full px-3 py-1 text-xs font-bold {{ $activity->purpose->badgeColor() }}">{{ $activity->purpose->label() }}</span>
-        <h2 class="mt-3 text-xl font-extrabold text-slate-800">{{ $activity->title }}</h2>
-        @if ($submission->status === \App\SubmissionStatus::Submitted)
-            <p class="mt-6 text-2xl font-extrabold text-amber-600">En attente de correction</p>
-            <p class="mt-2 text-slate-600">Ta note d'examen sera mise à jour au bulletin.</p>
+<div class="mx-auto w-full max-w-3xl space-y-6 pb-24 text-center">
+    <header class="edu-glass w-full p-6">
+        @if ($activity->isExam())
+            <span class="inline-flex items-center gap-1 rounded-full bg-rose-600 px-4 py-1.5 text-sm font-bold uppercase text-white">📋 Examen terminé</span>
         @else
-            <p class="mt-6 text-5xl font-extrabold text-indigo-600">{{ $submission->percentage ?? 0 }} %</p>
+            <span class="inline-flex items-center gap-1 rounded-full bg-sky-500 px-4 py-1.5 text-sm font-bold uppercase text-white">📝 Exercice terminé</span>
+        @endif
+        <h2 class="mt-3 text-xl font-bold text-slate-900">{{ $activity->title }}</h2>
+        @if ($submission->status === \App\SubmissionStatus::Submitted)
+            <p class="mt-6 text-2xl font-bold text-amber-600">En attente de correction</p>
+            <p class="mt-2 text-slate-600">Le professeur va corriger ta copie.</p>
+        @else
+            <p class="mt-6 text-5xl font-bold text-indigo-600">{{ $submission->percentage ?? 0 }} %</p>
             <p class="text-lg text-slate-600">{{ $submission->score }} / {{ $submission->max_score }} points</p>
+        @endif
+        @if ($submission->teacher_comment)
+            <p class="edu-inner mt-4 px-4 py-3 text-left text-sm text-slate-700">{{ $submission->teacher_comment }}</p>
         @endif
     </header>
 
-    @if ($activity->isExercise() && $submission->status === \App\SubmissionStatus::Graded)
-        <a href="{{ route('student.activites.show', $activity) }}" class="inline-block rounded-2xl bg-sky-600 px-6 py-3 font-bold text-white">Refaire l'exercice</a>
-    @endif
-    <a href="{{ route('student.matieres.show', $activity->competency->subject) }}" class="block font-bold text-indigo-600">← Matières</a>
+    <a href="{{ route('student.matieres.show', $activity->competency->subject) }}" class="edu-btn-primary inline-flex">← Retour aux matières</a>
 </div>
 @endsection

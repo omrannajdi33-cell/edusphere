@@ -1,18 +1,18 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-extrabold text-slate-800">Annonces</h2>
-            <p class="text-slate-600">Publie des messages pour les élèves.</p>
+            <h2 class="edu-title">Annonces</h2>
+            <p class="edu-subtitle">Publie des messages pour les élèves.</p>
         </div>
-        <a href="{{ route('admin.annonces.create') }}" class="touch-target rounded-xl bg-indigo-600 px-5 py-3 font-bold text-white hover:bg-indigo-700">+ Nouvelle annonce</a>
+        <a href="{{ route('admin.annonces.create') }}" class="touch-target edu-btn-primary px-5 py-3 hover:bg-indigo-700">+ Nouvelle annonce</a>
     </div>
 
     <div class="space-y-3">
         @forelse ($announcements as $announcement)
-            <article class="rounded-2xl bg-white p-5 shadow-sm">
+            <article class="edu-glass p-5">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
                         <h3 class="text-lg font-bold text-slate-800">{{ $announcement->title }}</h3>

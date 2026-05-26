@@ -1,12 +1,12 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
-            <a href="{{ route('admin.bulletins.index') }}" class="text-sm font-semibold text-indigo-600">← Bulletins</a>
-            <h2 class="text-2xl font-extrabold text-slate-800">Bulletin — {{ $student->name }}</h2>
-            <p class="text-slate-600">{{ $student->level?->label() }}</p>
+            <a href="{{ route('admin.bulletins.index') }}" class="edu-link text-sm">← Bulletins</a>
+            <h2 class="edu-title">Bulletin — {{ $student->name }}</h2>
+            <p class="edu-subtitle">{{ $student->level?->label() }}</p>
         </div>
         @if ($generalAverage !== null)
             <div class="rounded-2xl bg-indigo-600 px-6 py-4 text-center text-white">

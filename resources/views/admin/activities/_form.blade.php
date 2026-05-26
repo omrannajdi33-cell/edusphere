@@ -1,26 +1,54 @@
-@php
+﻿@php
     $section = $activity?->sections->first();
 @endphp
 
 <div class="space-y-4" x-data="activityForm()">
     <div class="grid gap-4 md:grid-cols-3">
         <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Titre</label>
-            <input name="title" value="{{ old('title', $activity?->title) }}" required class="w-full rounded-xl border border-slate-200 px-4 py-3">
+            <label class="edu-label">Titre</label>
+            <input name="title" value="{{ old('title', $activity?->title) }}" required class="edu-input">
         </div>
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Exercice ou examen</label>
-            <select name="purpose" required class="w-full rounded-xl border border-slate-200 px-4 py-3">
+            <label class="edu-label">Exercice ou examen</label>
+            <select name="purpose" required class="edu-input" x-model="purpose">
                 @foreach ($purposes as $p)
                     <option value="{{ $p->value }}" @selected(old('purpose', $activity?->purpose?->value ?? 'exercise') === $p->value)>{{ $p->label() }}</option>
                 @endforeach
             </select>
             <p class="mt-1 text-xs text-slate-500">Examen → bulletin · Exercice → entraînement</p>
         </div>
+        <div x-show="purpose === 'exam'" x-cloak>
+            <label class="edu-label">Durée examen (minutes)</label>
+            <input type="number" name="exam_duration_minutes" min="5" max="240" value="{{ old('exam_duration_minutes', $activity?->exam_duration_minutes ?? 45) }}" class="edu-input">
+        </div>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-5">
+            <label class="edu-label">Mode de correction</label>
+            <select name="grading_mode" required class="edu-input">
+                @foreach ($gradingModes as $mode)
+                    <option value="{{ $mode->value }}" @selected(old('grading_mode', $activity?->grading_mode?->value ?? 'automatic') === $mode->value)>{{ $mode->label() }}</option>
+                @endforeach
+            </select>
+            <p class="mt-2 text-xs text-slate-600">
+                <strong>Automatique</strong> : QCM, vrai/faux, nombres… &nbsp;·&nbsp;
+                <strong>Manuelle</strong> : tu reçois tout dans Corrections (brouillon, écriture, oral…).
+            </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p class="edu-label">Astuce module</p>
+            @if ($competency->moduleTypeEnum())
+                <p class="text-sm text-slate-700">{{ $competency->moduleTypeEnum()->icon() }} {{ $competency->moduleTypeEnum()->label() }}</p>
+                <p class="mt-1 text-xs text-slate-500">Pour l'écriture, l'oral ou le brouillon, choisis plutôt « Je corrige moi-même ».</p>
+            @else
+                <p class="text-sm text-slate-600">Activité standard — la correction automatique convient aux QCM.</p>
+            @endif
+        </div>
     </div>
 
     <div>
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Format technique</label>
+        <label class="edu-label">Format technique</label>
         <select name="type" x-model="type" class="w-full max-w-md rounded-xl border border-slate-200 px-4 py-3">
             @foreach ($types as $t)
                 <option value="{{ $t->value }}" @selected(old('type', $activity?->type?->value ?? 'dynamic') === $t->value)>{{ $t->label() }}</option>
@@ -29,8 +57,8 @@
     </div>
 
     <div>
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Description (courte)</label>
-        <textarea name="description" rows="2" class="w-full rounded-xl border border-slate-200 px-4 py-3">{{ old('description', $activity?->description) }}</textarea>
+        <label class="edu-label">Description (courte)</label>
+        <textarea name="description" rows="2" class="edu-input">{{ old('description', $activity?->description) }}</textarea>
     </div>
 
     <div class="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-5">
@@ -72,8 +100,8 @@
     <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
         <h4 class="font-bold text-slate-800">Pour quels élèves ?</h4>
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Niveau cible</label>
-            <select name="level" class="w-full rounded-xl border border-slate-200 px-4 py-3">
+            <label class="edu-label">Niveau cible</label>
+            <select name="level" class="edu-input">
                 <option value="">Tous les niveaux</option>
                 @foreach ($levels as $lvl)
                     <option value="{{ $lvl->value }}" @selected((int) old('level', $activity?->level?->value) === $lvl->value)>{{ $lvl->label() }}</option>
@@ -81,7 +109,7 @@
             </select>
         </div>
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Ou élèves précis</label>
+            <label class="edu-label">Ou élèves précis</label>
             <div class="grid gap-2 sm:grid-cols-2">
                 @foreach ($students as $student)
                     <label class="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm">
@@ -96,8 +124,8 @@
     </div>
 
     <div x-show="type === 'pdf'" x-cloak>
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Feuille de travail PDF (activité à compléter)</label>
-        <input type="file" name="pdf_file" accept="application/pdf" class="w-full rounded-xl border border-slate-200 px-4 py-3">
+        <label class="edu-label">Feuille de travail PDF (activité à compléter)</label>
+        <input type="file" name="pdf_file" accept="application/pdf" class="edu-input">
         @if ($activity?->pdf_path)
             <p class="mt-2 text-sm text-slate-500">PDF actuel : <a class="text-indigo-600" href="{{ \Illuminate\Support\Facades\Storage::url($activity->pdf_path) }}" target="_blank">Voir</a></p>
         @endif
@@ -105,12 +133,12 @@
 
     <div x-show="type === 'dynamic'" x-cloak class="space-y-4 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4">
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Titre de l'étape (questions)</label>
-            <input name="section_title" value="{{ old('section_title', $section?->title ?? 'Questions') }}" class="w-full rounded-xl border border-slate-200 px-4 py-3">
+            <label class="edu-label">Titre de l'étape (questions)</label>
+            <input name="section_title" value="{{ old('section_title', $section?->title ?? 'Questions') }}" class="edu-input">
         </div>
         <div class="flex items-center justify-between">
             <h4 class="font-bold text-slate-800">Questions</h4>
-            <button type="button" @click="addQuestion()" class="rounded-lg bg-indigo-600 px-3 py-2 text-sm font-bold text-white">+ Question</button>
+            <button type="button" @click="addQuestion()" class="edu-btn-primary px-3 py-2 text-sm">+ Question</button>
         </div>
         <template x-for="(question, index) in questions" :key="index">
             <div class="space-y-3 rounded-xl bg-white p-4 shadow-sm">
@@ -134,7 +162,7 @@
                             <label class="flex items-center gap-1 text-sm"><input type="checkbox" :name="'questions['+index+'][options]['+oi+'][correct]'" value="1"> OK</label>
                         </div>
                     </template>
-                    <button type="button" @click="addOption(index)" class="mt-2 text-sm font-semibold text-indigo-600">+ Option</button>
+                    <button type="button" @click="addOption(index)" class="mt-2 edu-link text-sm">+ Option</button>
                 </div>
                 <div x-show="question.type === 'true_false'">
                     <select :name="'questions['+index+'][correct]'" class="w-full rounded-lg border px-3 py-2">
@@ -167,6 +195,7 @@ function activityForm() {
     const existing = {!! json_encode($questionsJson) !!};
     return {
         type: {!! json_encode($defaultType) !!},
+        purpose: {!! json_encode($defaultPurpose) !!},
         readingMode: {!! json_encode($readingMode) !!},
         questions: existing.length ? existing : [],
         addQuestion() {

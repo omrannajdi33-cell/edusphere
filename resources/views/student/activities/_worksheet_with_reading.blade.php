@@ -1,22 +1,22 @@
 @php $initialView = 'reading'; @endphp
 <div
-    class="relative flex min-h-0 flex-1 flex-col bg-slate-950"
-    x-data="{ view: @json($initialView) }"
+    class="relative flex min-h-0 flex-1 flex-col"
+    x-data='{ view: @json($initialView) }'
     style="padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);"
 >
-    <section x-show="view === 'reading'" class="absolute inset-0 flex flex-col bg-gradient-to-b from-amber-950 to-orange-950" style="display:none">
-        <header class="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+    <section x-show="view === 'reading'" class="absolute inset-0 flex flex-col" style="display:none">
+        <header class="flex shrink-0 items-center justify-between gap-3 border-b border-white/70 bg-white/60 px-4 py-3 backdrop-blur-xl">
             <div>
-                <p class="text-xs font-bold uppercase text-amber-300">Lecture</p>
-                <h1 class="text-lg font-extrabold text-white">{{ $activity->title }}</h1>
+                <p class="edu-kicker">Lecture</p>
+                <h1 class="text-lg font-bold text-slate-900">{{ $activity->title }}</h1>
             </div>
-            <button type="button" @click="view = 'worksheet'" class="touch-target rounded-2xl bg-teal-500 px-5 py-3 text-sm font-extrabold text-white">Feuille →</button>
+            <button type="button" @click="view = 'worksheet'" class="edu-btn-primary touch-target text-sm">Feuille →</button>
         </header>
-        <div class="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
+        <div class="min-h-0 flex-1 overflow-y-auto bg-white/40 p-4 sm:p-6">
             @if ($activity->hasReadingPdf())
-                <iframe src="{{ $activity->readingPdfUrl() }}" class="h-full min-h-[60dvh] w-full rounded-2xl border-0 bg-white"></iframe>
+                <iframe src="{{ $activity->readingPdfUrl() }}" class="h-full min-h-[60dvh] w-full rounded-2xl border border-white/80 bg-white shadow-md"></iframe>
             @else
-                <article class="mx-auto max-w-3xl whitespace-pre-wrap font-serif text-lg leading-relaxed text-amber-50">{{ $activity->reading_text }}</article>
+                <article class="mx-auto max-w-3xl text-lg leading-relaxed text-slate-800">{{ $activity->reading_text }}</article>
             @endif
         </div>
     </section>

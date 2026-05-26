@@ -55,14 +55,18 @@ GitLab → **Settings → CI/CD → Variables** :
 | `DEPLOY_PATH` | `/var/www/edusphere` | ✓ |
 | `APP_URL` | `https://ton-domaine.com` | |
 
-### Première mise en ligne sur le serveur
+### Guide complet de mise en ligne
 
-1. Sur le VPS : installer PHP 8.3, Composer, Node, MySQL, Nginx.
-2. Cloner une fois : `git clone … /var/www/edusphere`
-3. Copier `.env` sur le serveur (`cp .env.example .env`, éditer DB, `php artisan key:generate`).
-4. Push sur `main` → pipeline vert → bouton **Deploy → production** (manuel).
+Voir **[deploy/DEPLOIEMENT.md](deploy/DEPLOIEMENT.md)** — variables GitLab, Nginx, MySQL, `.env`, certbot.
 
-Le script `deploy/deploy.sh` lance migrate, cache et `storage:link`.
+Fichiers utiles :
+
+| Fichier | Rôle |
+|---------|------|
+| `.gitlab-ci.yml` | Pipeline test → build → deploy |
+| `deploy/deploy.sh` | Script exécuté sur le serveur |
+| `deploy/server-setup.sh` | Installation initiale du VPS |
+| `deploy/nginx.edusphere.conf` | Exemple Nginx |
 
 ## Branche principale
 
