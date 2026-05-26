@@ -29,8 +29,8 @@ if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '127\.0\.0\.1|localhost'; t
   echo "WARNING: APP_URL locale ignorée."
   APP_LINK=""
 fi
-if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qi 'gitlab\.io'; then
-  echo "WARNING: APP_URL ne peut pas être GitLab Pages."
+if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qiE 'gitlab\.io|github\.io'; then
+  echo "WARNING: APP_URL ne peut pas être une URL Pages (gitlab.io / github.io)."
   APP_LINK=""
 fi
 set -e
@@ -55,6 +55,8 @@ if [ -n "$FAVICON" ] && [ -f "$FAVICON" ]; then
 fi
 
 sed -i "s|__CONNEXION_URL__|${CONNEXION_URL}|g" "$OUT/index.html"
+
+touch "$OUT/.nojekyll"
 
 echo "Vitrine prête dans public/"
 ls -la "$OUT" "$OUT/connexion"

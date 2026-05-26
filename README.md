@@ -16,7 +16,8 @@ edusphere/
 
 | URL | Contenu |
 |-----|---------|
-| [gitlab.io/edusphere](https://omrannajdi33-group.gitlab.io/edusphere/) | Vitrine → redirige vers `/connexion` |
+| [GitHub Pages](https://omrannajdi33-cell.github.io/edusphere/) | Vitrine → redirige vers `/connexion` |
+| [GitLab Pages](https://omrannajdi33-group.gitlab.io/edusphere/) | Vitrine → redirige vers `/connexion` |
 | `{APP_URL}/connexion` | Application Laravel (production) |
 
 ## Démarrage local (Laragon)
@@ -46,6 +47,13 @@ git push -u origin main
 ## GitHub
 
 https://github.com/omrannajdi33-cell/edusphere
+
+**GitHub Pages** (vitrine) : https://omrannajdi33-cell.github.io/edusphere/
+
+1. Repo → **Settings** → **Pages** → Source : **GitHub Actions**
+2. **Settings** → **Secrets and variables** → **Actions** → **Variables** → `APP_URL` = URL HTTPS du serveur Laravel (ex. `https://edusphere.example.com`)
+
+Le workflow `.github/workflows/pages.yml` build `site/vitrine/` et déploie à chaque push sur `main`.
 
 ```bash
 git remote add github https://github.com/omrannajdi33-cell/edusphere.git
