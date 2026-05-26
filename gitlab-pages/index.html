@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#6366f1" />
+  <base href="/edusphere/" />
+  <title>EduSphere — École d'été</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: rgba(255, 255, 255, 0.82);
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --accent: #06b6d4;
+      --radius: 1.5rem;
+      --shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: "Outfit", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 32%),
+        radial-gradient(circle at top right, rgba(6, 182, 212, 0.14), transparent 28%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.12);
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      line-height: 1.05;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.04em;
+    }
+    .lead {
+      max-width: 38rem;
+      margin: 0 auto 1.75rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding: 0 1.35rem;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.28);
+    }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+    .btn:active { transform: scale(0.98); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.98rem;
+    }
+    .note {
+      margin-top: 1.5rem;
+      padding: 1rem 1.15rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px dashed rgba(99, 102, 241, 0.25);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    code {
+      background: rgba(15, 23, 42, 0.06);
+      padding: 0.12rem 0.4rem;
+      border-radius: 0.4rem;
+      font-size: 0.88em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="badge">E · École d'été · Tablette first</div>
+      <h1>EduSphere</h1>
+      <p class="lead">
+        Plateforme scolaire modulaire pour élèves de 7 à 10 ans.
+        Cette adresse GitLab Pages affiche la vitrine du projet.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" id="open-app" href="#">Ouvrir l'application</a>
+        <a class="btn btn-secondary" href="https://gitlab.com/omrannajdi33-group/edusphere" target="_blank" rel="noopener">Voir le code GitLab</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>📱 Application complète</h2>
+        <p>
+          La connexion élève/prof, les exercices, examens et corrections tournent sur un serveur Laravel (PHP + base de données).
+          GitLab Pages ne peut pas exécuter Laravel directement.
+        </p>
+      </article>
+      <article class="card">
+        <h2>💻 Développement local</h2>
+        <p>
+          Sur ton PC : <code>php artisan serve</code> puis ouvre
+          <code>http://127.0.0.1:8000/connexion</code>.
+          Comptes démo : <code>prof</code> / <code>ali</code>.
+        </p>
+      </article>
+      <article class="card">
+        <h2>🚀 Mise en ligne</h2>
+        <p>
+          Utilise le job GitLab <strong>deploy:production</strong> vers un VPS,
+          ou un hébergeur PHP (Railway, Render, Hostinger).
+        </p>
+      </article>
+    </section>
+
+    <p class="note" id="app-url-note">
+      Configure la variable CI/CD <code>APP_URL</code> (ou <code>PAGES_APP_URL</code>) avec l'adresse de ton serveur Laravel
+      pour que le bouton « Ouvrir l'application » pointe vers la vraie app.
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var fromMeta = document.querySelector('meta[name="edusphere-app-url"]');
+      var appUrl = params.get('app') || (fromMeta && fromMeta.content) || '';
+      var btn = document.getElementById('open-app');
+      var note = document.getElementById('app-url-note');
+
+      if (appUrl) {
+        btn.href = appUrl.replace(/\/$/, '') + '/connexion';
+        btn.textContent = 'Se connecter à EduSphere';
+        note.innerHTML = 'Application hébergée sur <code>' + appUrl + '</code>.';
+      } else {
+        btn.href = 'https://gitlab.com/omrannajdi33-group/edusphere/-/blob/main/deploy/DEPLOIEMENT.md';
+        btn.textContent = 'Guide de déploiement';
+      }
+    })();
+  </script>
+</body>
+</html>

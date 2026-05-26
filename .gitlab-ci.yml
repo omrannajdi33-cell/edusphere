@@ -92,3 +92,29 @@ deploy:production:
   when: manual
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+
+# ── GitLab Pages (vitrine statique — corrige le 404 sur gitlab.io) ──
+# Laravel (PHP) ne peut PAS tourner sur Pages ; cette job publie index.html.
+# URL : https://omrannajdi33-group.gitlab.io/edusphere/
+pages:
+  stage: deploy
+  image: alpine:3.21
+  needs:
+    - job: build:assets
+      artifacts: true
+      optional: true
+  script:
+    - cp gitlab-pages/index.html public/index.html
+    - cp gitlab-pages/404.html public/404.html
+    - cp gitlab-pages/manifest.json public/manifest.json
+    - |
+      APP_LINK="${PAGES_APP_URL:-$APP_URL}"
+      if [ -n "$APP_LINK" ] && [ "$APP_LINK" != "https://edusphere.example.com" ]; then
+        sed -i "s|<head>|<head><meta name=\"edusphere-app-url\" content=\"${APP_LINK}\">|" public/index.html
+      fi
+    - ls -la public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

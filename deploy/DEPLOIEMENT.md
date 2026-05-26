@@ -8,7 +8,18 @@
 |-----|------|
 | `test:php` | Tests PHPUnit + migrations SQLite |
 | `build:assets` | `npm run build` → artifacts `public/build/` |
+| `pages` | Publie la vitrine sur **GitLab Pages** (statique) |
 | `deploy:production` | **Manuel** — rsync SSH + `deploy/deploy.sh` |
+
+### GitLab Pages vs application Laravel
+
+| URL | Contenu |
+|-----|---------|
+| https://omrannajdi33-group.gitlab.io/edusphere/ | Vitrine statique (job `pages`) — **pas** l'app Laravel |
+| Ton `APP_URL` (VPS / hébergeur PHP) | Application complète (connexion, élèves, exercices) |
+
+GitLab Pages ne peut exécuter que du HTML/CSS/JS. Laravel exige PHP + MySQL sur un vrai serveur.
+Optionnel : définir `PAGES_APP_URL` dans les variables CI pour que le bouton de la vitrine pointe vers ton app déployée.
 
 ## 2. Variables GitLab (Settings → CI/CD → Variables)
 
