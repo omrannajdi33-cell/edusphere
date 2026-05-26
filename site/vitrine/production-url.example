@@ -1,5 +1,0 @@
-# URL publique de l'application Laravel (HTTPS, sans slash final).
-# Copie ce fichier en production-url ou définis APP_URL dans GitLab CI/CD.
-#
-# Exemple :
-# https://edusphere.mondomaine.com

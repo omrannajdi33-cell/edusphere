@@ -2,7 +2,7 @@
     "name": "EduSphere",
     "short_name": "EduSphere",
     "description": "Plateforme scolaire pour école d'été",
-    "start_url": "/edusphere/connexion/",
+    "start_url": "/edusphere/",
     "scope": "/edusphere/",
     "display": "standalone",
     "background_color": "#f4f6fb",

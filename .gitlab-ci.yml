@@ -94,7 +94,7 @@ deploy:production:
     - if: $CI_COMMIT_BRANCH == "main"
 
 # ── GitLab Pages (vitrine statique) ───────────────────────────
-# Source : site/vitrine/ → artefact public/ (via scripts/build-vitrine.sh)
+# Source : fichiers vitrine à la racine → artefact public/ (scripts/build-vitrine.sh)
 # URL vitrine : https://omrannajdi33-group.gitlab.io/edusphere/
 pages:
   stage: deploy
