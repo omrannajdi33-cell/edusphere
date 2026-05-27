@@ -1,2 +1,3 @@
-# URL HTTPS de l'application Laravel (une ligne, sans #).
-# Exemple : https://edusphere.example.com
+# URL HTTPS de l'application Laravel (une ligne active, sans #).
+# Remplis après déploiement Render :
+# https://edusphere-xxxx.onrender.com

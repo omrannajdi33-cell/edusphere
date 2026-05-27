@@ -1,0 +1,15 @@
+node_modules
+vendor
+.git
+.env
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+bootstrap/cache
+public/build
+public/vitrine
+public/storage
+site-output
+gh-pages-build
+database/database.sqlite

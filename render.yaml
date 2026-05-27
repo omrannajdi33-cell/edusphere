@@ -1,17 +1,10 @@
 services:
   - type: web
     name: edusphere
-    runtime: php
+    runtime: docker
     plan: free
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      npm ci
-      npm run build
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-      php artisan migrate --force --seed
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
     envVars:
       - key: APP_KEY
         generateValue: true
@@ -26,7 +19,7 @@ services:
           property: host
       - key: DB_CONNECTION
         value: pgsql
-      - key: DATABASE_URL
+      - key: DB_URL
         fromDatabase:
           name: edusphere-db
           property: connectionString
@@ -36,6 +29,8 @@ services:
         value: database
       - key: QUEUE_CONNECTION
         value: sync
+      - key: SEED_DEMO
+        value: "true"
 
 databases:
   - name: edusphere-db

@@ -31,6 +31,12 @@ fi
 echo "→ Migrations…"
 php artisan migrate --force --no-interaction
 
+APP_URL="$(grep -E '^APP_URL=' .env | head -1 | cut -d= -f2- | tr -d '"' | tr -d "'" | tr -d '\r')"
+if [[ -n "$APP_URL" ]]; then
+    echo "→ Vitrine (public/vitrine)…"
+    VITRINE_OUT=public/vitrine APP_URL="$APP_URL" bash scripts/build-vitrine.sh
+fi
+
 echo "→ Liens & cache…"
 php artisan storage:link --force 2>/dev/null || true
 php artisan config:cache

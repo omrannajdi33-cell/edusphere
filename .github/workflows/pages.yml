@@ -3,7 +3,21 @@ name: Publish GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - "index.html"
+      - "connexion.html"
+      - "404.html"
+      - "manifest.json"
+      - "production-url"
+      - "assets/**"
+      - "scripts/build-vitrine.sh"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
+    inputs:
+      app_url:
+        description: "URL Laravel production (https://..., sans slash final)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -14,11 +28,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build vitrine (production)
+      - name: Build vitrine (miroir Pages)
         env:
-          APP_URL: ${{ vars.APP_URL }}
+          APP_URL: ${{ inputs.app_url || vars.APP_URL }}
           PAGES_APP_URL: ${{ vars.PAGES_APP_URL }}
         run: VITRINE_OUT=site-output bash scripts/build-vitrine.sh
+
+      - name: Verify production link
+        run: |
+          if grep -qE '^https?://' site-output/production-url 2>/dev/null; then
+            echo "Lien production OK : $(grep -E '^https?://' site-output/production-url | head -1)"
+          else
+            echo "::warning::APP_URL absente — définis vars.APP_URL ou production-url dans le repo"
+          fi
 
       - name: Deploy gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

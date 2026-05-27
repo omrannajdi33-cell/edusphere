@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-vitrine-redirect="connexion">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#eef2ff" />
-  <base href="/edusphere/" />
   <title>Connexion — EduSphere</title>
+  <script src="assets/vitrine.js"></script>
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/edu.css" />
-  <script>
-    (function () {
-      var app = "__APP_URL__".replace(/\/$/, "");
-      if (app && /^https?:\/\//i.test(app) && app.indexOf("__APP") === -1) {
-        location.replace(app + "/connexion");
-      }
-    })();
-  </script>
+  <style>
+    html:not(.vitrine-show-fallback) body { visibility: hidden; }
+    .vitrine-steps { margin: 0 0 1rem; padding-left: 1.2rem; color: #64748b; line-height: 1.7; text-align: left; }
+    .vitrine-steps code { font-size: 0.9em; background: #eef2ff; padding: 0.1rem 0.35rem; border-radius: 0.35rem; }
+  </style>
 </head>
 <body class="edu-shell">
   <main class="edu-page">
@@ -28,10 +25,14 @@
 
       <div class="edu-glass">
         <p style="margin:0 0 1rem;color:#64748b;line-height:1.6;text-align:center;">
-          L'application n'est pas encore liée à une URL de production.
-          Définis la variable <strong>APP_URL</strong> dans GitHub (Settings → Variables) puis relance le déploiement Pages.
+          La vitrine GitHub Pages doit connaître l'URL de l'application Laravel.
         </p>
-        <a class="edu-btn-primary" href="index.html" style="text-decoration:none;">← Retour à l'accueil</a>
+        <ol class="vitrine-steps">
+          <li>Déploie Laravel (Render, VPS, ou <code>docker compose up</code> en local).</li>
+          <li>Ajoute l'URL dans <code>production-url</code> (ex. <code>https://edusphere.onrender.com</code>).</li>
+          <li>Pousse sur <code>main</code> ou relance le workflow Pages avec cette URL.</li>
+        </ol>
+        <a class="edu-btn-primary" href="index.html" style="text-decoration:none;display:block;text-align:center;">← Retour à l'accueil</a>
       </div>
     </div>
   </main>
