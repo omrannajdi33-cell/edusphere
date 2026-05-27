@@ -18,6 +18,12 @@ if [ -f "$ROOT/public/favicon.ico" ]; then
   cp "$ROOT/public/favicon.ico" "$OUT/favicon.ico"
 fi
 
+read_app_link() {
+  if [ -f "$ROOT/production-url" ]; then
+    grep -E '^https?://' "$ROOT/production-url" | head -1 | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/\xEF\xBB\xBF//'
+  fi
+}
+
 set +e
 APP_LINK="${PAGES_APP_URL:-$APP_URL}"
 if [ -z "$APP_LINK" ] && [ -n "${DEPLOY_HOST:-}" ]; then
@@ -26,8 +32,8 @@ if [ -z "$APP_LINK" ] && [ -n "${DEPLOY_HOST:-}" ]; then
     *) APP_LINK="https://${DEPLOY_HOST}" ;;
   esac
 fi
-if [ -z "$APP_LINK" ] && [ -f "$ROOT/production-url" ]; then
-  APP_LINK="$(awk '!/^#/ && !/^[[:space:]]*$/ { sub(/\/$/, ""); print; exit }' "$ROOT/production-url")"
+if [ -z "$APP_LINK" ]; then
+  APP_LINK="$(read_app_link)"
 fi
 APP_LINK="${APP_LINK%/}"
 if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '127\.0\.0\.1|localhost'; then
@@ -39,13 +45,14 @@ fi
 set -e
 
 if [ -n "$APP_LINK" ] && echo "$APP_LINK" | grep -qE '^https?://'; then
-  echo "$APP_LINK" > "$OUT/production-url"
+  printf '%s\n' "$APP_LINK" > "$OUT/production-url"
   sed "s|__APP_URL__|${APP_LINK}|g" "$ROOT/assets/vitrine.js" > "$OUT/assets/vitrine.js"
+  sed "s|href=\"connexion.html\"|href=\"${APP_LINK}/connexion\"|g" "$OUT/index.html" > "$OUT/index.html.tmp" && mv "$OUT/index.html.tmp" "$OUT/index.html"
   echo "Connexion production: ${APP_LINK}/connexion"
 else
   cp "$ROOT/production-url" "$OUT/production-url" 2>/dev/null || true
   sed "s|__APP_URL__||g" "$ROOT/assets/vitrine.js" > "$OUT/assets/vitrine.js"
-  echo "WARNING: APP_URL absente — configure la variable CI ou production-url"
+  echo "WARNING: APP_URL absente — configure production-url ou vars.APP_URL (Render)"
 fi
 
 touch "$OUT/.nojekyll"

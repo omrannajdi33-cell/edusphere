@@ -57,6 +57,7 @@
     if (!raw) {
       return "";
     }
+    raw = raw.replace(/^\uFEFF/, "");
     var lines = raw.split("\n");
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i].trim();
